@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var translateBtn = document.getElementById('translateBtn');
-    var simplifyBtn = document.getElementById('simplifyBtn');
+    var translateBtn = document.getElementById('translate-btn');
+    var simplifyBtn = document.getElementById('simplify-btn');
   
     translateBtn.addEventListener('click', function() {
       // Add translation functionality here
-      alert('Translation functionality will be added here.');
+      alert('Translate functionality will be added here')
     });
   
     simplifyBtn.addEventListener('click', function() {

@@ -4,7 +4,13 @@
   "version": "1.0",
   "description": "A browser extension for translating and simplifying text.",
   "permissions": ["activeTab"],
+  "content_scripts":[
+    {
+     "matches":["<all_urls>"],
+     "js":["src/main.js"]
+    }
+  ],
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "src/popup.html"
   }
 }
