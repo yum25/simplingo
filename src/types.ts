@@ -1,0 +1,4 @@
+export enum MESSAGE {
+    TRANSLATE_REQUEST,
+    SIMPLIFY_REQUEST,
+}

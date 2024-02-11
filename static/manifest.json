@@ -6,11 +6,12 @@
   "permissions": ["activeTab"],
   "content_scripts":[
     {
+     "type": "module",
      "matches":["<all_urls>"],
-     "js":["src/main.js"]
+     "js":["content.js"]
     }
   ],
   "action": {
-    "default_popup": "src/popup.html"
+    "default_popup": "popup.html"
   }
 }
