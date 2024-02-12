@@ -5,13 +5,20 @@ body {
   }
   
   .container {
-    width: 200px;
-    height: 500px;
-    padding: 20px;
+    width: 350px;
+    height: 950px;
+    padding: 15px;
+    /* position: absolute;
+    right: 0%;
+    top: 0%; */
   }
   
   button {
     display: block;
     width: 100%;
     margin-bottom: 10px;
+  }
+
+  .translatedText {
+    font-size: 10px;
   }
