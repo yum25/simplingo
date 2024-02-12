@@ -6,12 +6,18 @@
   "permissions": ["activeTab"],
   "content_scripts":[
     {
-     "type": "module",
      "matches":["<all_urls>"],
      "js":["content.js"]
+    },
+    {
+      "matches":["<all_urls>"],
+     "js":["inject.js"]
     }
   ],
-  "action": {
-    "default_popup": "sidepanel.html"
-  }
+  "web_accessible_resources": [
+    {
+      "resources": ["sidepanel.html"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }
