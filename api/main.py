@@ -22,7 +22,7 @@ def query(prompt, **kwargs):
 def models_init():
     """Set up relevant models."""
     if gpt2:
-        
+        pass        
 
 @app.route('/get_text/', methods=['GET'])
 def get_text():
