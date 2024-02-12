@@ -15,3 +15,6 @@ Go to [chrome://extensions](chrome://extensions) and press ```Load unpacked```, 
 This project is built and bundled using [webpack](https://webpack.js.org) and [babel](https://www.npmjs.com/package/babel-loader). This comes with multiple benefits: real time build refresh, ES6 style imports/exports, and the ability to modularize files. 
 
 We use [TypeScript](https://www.typescriptlang.org) to write the extension itself, and [webextension-polyfill](https://github.com/mozilla/webextension-polyfill) for compatibility between multiple browsers.
+
+
+For the requisite Python environment, run the following (with appropriate modification):  ```python -m venv env``` to create an environment, ```source env/bin/activate``` to activate it, ```pip install -r requirements.txt``` to install necessary packages. 
