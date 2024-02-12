@@ -8,9 +8,6 @@ body {
     width: 350px;
     height: 950px;
     padding: 15px;
-    /* position: absolute;
-    right: 0%;
-    top: 0%; */
   }
   
   button {
@@ -20,5 +17,6 @@ body {
   }
 
   .translatedText {
-    font-size: 10px;
+    font-size: 14px;
+    white-space: pre-line;
   }
