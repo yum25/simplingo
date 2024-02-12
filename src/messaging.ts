@@ -18,7 +18,12 @@ export function sendRequest(type, data) {
     });
   }
 
-export function addRequestListener(messageHandler) {
+export async function sendResponse(type, data) {
+    const response = browser.runtime.sendMessage({ type, data })
+    return response;
+}
+
+export function addMessageListener(messageHandler) {
     browser.runtime.onMessage.addListener((message, sender) => {
         const { type, data } = message;
         try {

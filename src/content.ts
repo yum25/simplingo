@@ -1,4 +1,4 @@
-import { addRequestListener } from "./messaging";
+import { sendResponse, addMessageListener } from "./messaging";
 import { MESSAGE } from "./types";
 
 const verifyText = (node) => {
@@ -48,7 +48,22 @@ const replaceDOMText = (newText) => {
 
 const translateDOM = (data, text) => {
     // TODO: send API translation request to backend and modify DOM based on response
-    replaceDOMText(text.map((word) => (`${word}ie`)));
+    sendResponse(MESSAGE.TRANSLATE_RESPONSE, text);
+    // fetch(`https://localhost:3000/?translation=True&text=${text}`)
+    // .then((resp) => {
+    //     if (!resp.ok) {
+    //         throw new Error(`${resp.status}: ${resp.statusText}`);
+    //     }
+    //     return resp.json();
+    // })
+    // .then((data) => {
+    //     // TODO: display translated text to the side panel
+    //     sendResponse(MESSAGE.TRANSLATE_RESPONSE, data);
+    // })
+    // .catch((error) => {
+    //     console.error(error);
+    //     alert("Error: failed to translate. Please try again.");
+    // });
 }
 
 const simplifyDOM = (data, text) => {
@@ -56,7 +71,7 @@ const simplifyDOM = (data, text) => {
 }
 
 const handleRequest = (type, data) => {
-    const documentText = getDOMText();
+    const documentText = document.body.innerText;
     switch (type) {
         case MESSAGE.TRANSLATE_REQUEST:
             translateDOM(data, documentText);
@@ -67,4 +82,4 @@ const handleRequest = (type, data) => {
     }
 }
 
-addRequestListener(handleRequest);
+addMessageListener(handleRequest);
