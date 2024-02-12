@@ -6,7 +6,9 @@ class GPT2 ():
         self.model = GPT2Model.from_pretrained('gpt2-large')
 
     def lang_query(self, text):
-        """Return target language oin ISO 639-1 code."""
+        """Return target language in ISO 639-1 code."""
+
+        query = "You will be provided a text that may be in one or more languages."
 
     
     def query(self, **kwargs):
