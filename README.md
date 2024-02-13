@@ -2,7 +2,7 @@
 > [!WARNING]
 > Currently in development, does not translate or simplify text yet, this extension only modifies the DOM in trivial ways.
 
-An AI browser extension that helps you understand tehcnical documents and translate between languages.
+An AI browser extension that helps you understand technical documents and translate between languages.
 
 ## Install and Build
 
