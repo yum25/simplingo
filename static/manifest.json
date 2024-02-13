@@ -4,14 +4,25 @@
   "version": "1.0",
   "description": "A browser extension for translating and simplifying text.",
   "permissions": ["activeTab"],
+  "action": {},
   "content_scripts":[
     {
-     "type": "module",
      "matches":["<all_urls>"],
      "js":["content.js"]
+    },
+    {
+      "matches":["<all_urls>"],
+     "js":["inject.js"]
     }
   ],
-  "action": {
-    "default_popup": "sidepanel.html"
-  }
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["sidepanel.html"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }

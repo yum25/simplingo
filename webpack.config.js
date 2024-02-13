@@ -1,5 +1,5 @@
 // See https://github.com/saisandeepvaddi/web-extension-communication-blog-post for webpack and babel configs
-// ** as well as messaging.ts and message.ts
+// ** as well as messaging.ts and types.ts
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');

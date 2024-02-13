@@ -79,6 +79,8 @@ const handleRequest = (type, data) => {
         case MESSAGE.SIMPLIFY_REQUEST:
             simplifyDOM(data, documentText);
             break;
+        default:
+            break;
     }
 }
 
