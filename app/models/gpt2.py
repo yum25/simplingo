@@ -22,6 +22,19 @@ class GPT2():
         
         return text_output
 
+    def summary(self, text):
+        """ Adding a TL;DR token at the end of the text"""
+        new_text = text + " TL;DR"
+        len_input = len(new_text)
+
+        encoded = self.tokenizer.encode(new_text, return_tensors='pt')
+        length_encoded = len(encoded[0])
+
+        output = self.model.generate(encoded, max_new_tokens = length_encoded, num_beams=5, no_repeat_ngram_size=2, top_k=50, top_p=0.95)
+        text_output = self.tokenizer.decode(output[0], skip_special_tokens=True)
+        text_output = text_output[len_input:]
+
+        return text_output
     
     def query(self, text, **kwargs):
         """Check source language, then perform query."""
