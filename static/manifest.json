@@ -4,6 +4,7 @@
   "version": "1.0",
   "description": "A browser extension for translating and simplifying text.",
   "permissions": ["activeTab"],
+  "action": {},
   "content_scripts":[
     {
      "matches":["<all_urls>"],
@@ -14,6 +15,10 @@
      "js":["inject.js"]
     }
   ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
   "web_accessible_resources": [
     {
       "resources": ["sidepanel.html"],

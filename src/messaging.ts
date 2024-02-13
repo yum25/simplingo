@@ -1,6 +1,6 @@
 import browser from "webextension-polyfill";
 
-async function sendMessage(tabID, type, data) {
+export async function sendMessage(tabID, type, data) {
     try {
       const response = await browser.tabs.sendMessage(tabID, { type, data });
       return response;
@@ -33,4 +33,10 @@ export function addMessageListener(messageHandler) {
           console.error("Failed to handle request: ", error);
         }
       });
+}
+
+export function onPressListener(onPress) {
+  browser.action.onClicked.addListener((tab) => {
+    (type, data) => onPress(tab.id, type, data)
+  })
 }
