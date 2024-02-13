@@ -34,9 +34,3 @@ export function addMessageListener(messageHandler) {
         }
       });
 }
-
-export function onPressListener(onPress) {
-  browser.action.onClicked.addListener((tab) => {
-    (type, data) => onPress(tab.id, type, data)
-  })
-}
