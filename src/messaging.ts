@@ -1,6 +1,6 @@
 import browser from "webextension-polyfill";
 
-async function sendMessage(tabID, type, data) {
+export async function sendMessage(tabID, type, data) {
     try {
       const response = await browser.tabs.sendMessage(tabID, { type, data });
       return response;

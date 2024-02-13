@@ -4,10 +4,9 @@ import { MESSAGE } from "./types";
 function handleResponse(type, data) {
   switch(type) {
     case MESSAGE.TRANSLATE_RESPONSE:
-      alert("Translate response received")
-      console.log(data);
       const el = document.getElementById('translatedText')
-      el!.innerHTML = data;
+      console.log(data)
+      el!.innerText = data;
       break;
     case MESSAGE.SIMPLIFY_RESPONSE:
       console.log(data);
@@ -15,9 +14,11 @@ function handleResponse(type, data) {
   }
 }
 
+addMessageListener(handleResponse);
+
 document.addEventListener('DOMContentLoaded', function() {
-    var translateBtn = document.getElementById('translate-btn');
-    var simplifyBtn = document.getElementById('simplify-btn');
+    var translateBtn = document.getElementById('translate');
+    var simplifyBtn = document.getElementById('simplify');
     
     translateBtn?.addEventListener('click', function() {
       // Add translation functionality here
@@ -29,5 +30,3 @@ document.addEventListener('DOMContentLoaded', function() {
       sendRequest(MESSAGE.SIMPLIFY_REQUEST, { });
     });
 });
-
-addMessageListener(handleResponse);
