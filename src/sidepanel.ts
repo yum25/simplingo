@@ -17,8 +17,8 @@ function handleResponse(type, data) {
 addMessageListener(handleResponse);
 
 document.addEventListener('DOMContentLoaded', function() {
-    var translateBtn = document.getElementById('translate-btn');
-    var simplifyBtn = document.getElementById('simplify-btn');
+    var translateBtn = document.getElementById('translate');
+    var simplifyBtn = document.getElementById('simplify');
     
     translateBtn?.addEventListener('click', function() {
       // Add translation functionality here
