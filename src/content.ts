@@ -48,22 +48,26 @@ const replaceDOMText = (newText) => {
 
 const translateDOM = (data, text) => {
     // TODO: send API translation request to backend and modify DOM based on response
+
+    // comment this out when testing translation backend
     sendResponse(MESSAGE.TRANSLATE_RESPONSE, text);
-    // fetch(`https://localhost:3000/?translation=True&text=${text}`)
-    // .then((resp) => {
-    //     if (!resp.ok) {
-    //         throw new Error(`${resp.status}: ${resp.statusText}`);
-    //     }
-    //     return resp.json();
-    // })
-    // .then((data) => {
-    //     // TODO: display translated text to the side panel
-    //     sendResponse(MESSAGE.TRANSLATE_RESPONSE, data);
-    // })
-    // .catch((error) => {
-    //     console.error(error);
-    //     alert("Error: failed to translate. Please try again.");
-    // });
+
+    // comment this out when testing frontend message listeners
+    fetch(`https://localhost:3000/?translate=true&text=${text}&target_lang=en`)
+    .then((resp) => {
+        if (!resp.ok) {
+            throw new Error(`${resp.status}: ${resp.statusText}`);
+        }
+        return resp.json();
+    })
+    .then((data) => {
+        // TODO: display translated text to the side panel
+        sendResponse(MESSAGE.TRANSLATE_RESPONSE, data);
+    })
+    .catch((error) => {
+        console.error(error);
+        alert("Error: failed to translate. Please try again.");
+    });
 }
 
 const simplifyDOM = (data, text) => {
