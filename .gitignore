@@ -3,3 +3,4 @@ node_modules
 env/*
 api/credentials.py
 config.py
+*__pycache__*

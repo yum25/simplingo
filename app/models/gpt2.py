@@ -30,16 +30,20 @@ class GPT2():
         if lang == 'None':
             return None, "Multiple languages detected; do you wish to proceed with translation?"
         
-        if kwargs.translate and kwargs.simplify:
+        if kwargs["translate"] and kwargs["simplify"]:
             print("Error: simplify is temporarily disabled")
-        elif kwargs.translate:
-            query = ('Please translate the following into ' + kwargs.target + ':\n')
+        elif kwargs["translate"]:
+            print(f"translating {text}\n")
+            query = ('Please translate the following into ' + kwargs["target"] + ':\n')
             encoded = self.tokenizer.encode(query + text, return_tensors='pt')
-            output = self.model.generate(encoded, max_length=1024)
+            print(len(encoded))
+            output = self.model.generate(encoded, max_length=len(encoded))
+
             text_output = self.tokenizer.decode(output[0], skip_special_tokens=True)
+            print(f"done: {text_output}\n")
             
             return text_output, None
-        elif kwargs.simplify:
+        elif kwargs["simplify"]:
             print("Error: temporarily disabled")
         else:
             print("Error bad query: translate and simplify args not specified")
