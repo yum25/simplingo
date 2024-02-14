@@ -16,11 +16,15 @@ body {
     margin-bottom: 10px;
   }
 
-  .translatedText {
+  #translatedText {
     font-size: 14px;
     white-space: pre-line;
   }
 
+  #simplifiedText {
+    font-size: 16px;
+    white-space: pre-line;
+  }
 
   .switch {
     position: relative;

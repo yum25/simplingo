@@ -4,12 +4,14 @@ import { MESSAGE } from "./types";
 function handleResponse(type, data) {
   switch(type) {
     case MESSAGE.TRANSLATE_RESPONSE:
-      const el = document.getElementById('translatedText')
       console.log(data)
-      el!.innerText = data;
+      const translatedText = document.getElementById('translatedText')
+      translatedText!.innerText = data.text;
       break;
     case MESSAGE.SIMPLIFY_RESPONSE:
       console.log(data);
+      const simplifiedText = document.getElementById('simplifiedText')
+      simplifiedText!.innerText = data.text;
       break;
   }
 }

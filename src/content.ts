@@ -50,10 +50,10 @@ const translateDOM = (data, text) => {
     // TODO: send API translation request to backend and modify DOM based on response
 
     // comment this out when testing translation backend
-    sendResponse(MESSAGE.TRANSLATE_RESPONSE, text);
+    // sendResponse(MESSAGE.TRANSLATE_RESPONSE, { text });
 
     // comment this out when testing frontend message listeners
-    fetch(`https://localhost:3000/?translate=true&text=${text}&target_lang=en`)
+    fetch(`http://127.0.0.1:5000/get_text?translate=true&text=${text}&target_lang=zh`, { mode: 'no-cors'})
     .then((resp) => {
         if (!resp.ok) {
             throw new Error(`${resp.status}: ${resp.statusText}`);
@@ -61,7 +61,6 @@ const translateDOM = (data, text) => {
         return resp.json();
     })
     .then((data) => {
-        // TODO: display translated text to the side panel
         sendResponse(MESSAGE.TRANSLATE_RESPONSE, data);
     })
     .catch((error) => {
@@ -71,7 +70,25 @@ const translateDOM = (data, text) => {
 }
 
 const simplifyDOM = (data, text) => {
+
+    // comment this out when testing backend
+    // sendResponse(MESSAGE.SIMPLIFY_RESPONSE, { text });
+
     // TODO: send API simplification request to backend and modify DOM based on response
+    fetch(`http://127.0.0.1:5000/get_text?translate=false&simplify=1&text=${text}&target_lang=en`, { mode: 'no-cors'})
+    .then((resp) => {
+        if (!resp.ok) {
+            throw new Error(`${resp.status}: ${resp.statusText}`);
+        }
+        return resp.json();
+    })
+    .then((data) => {
+        sendResponse(MESSAGE.SIMPLIFY_RESPONSE, data);
+    })
+    .catch((error) => {
+        console.error(error);
+        alert("Error: failed to simplify. Please try again.");
+    });
 }
 
 const handleRequest = (type, data) => {
