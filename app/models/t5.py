@@ -10,22 +10,22 @@ class T5():
         self.model = T5ForConditionalGeneration.from_pretrained("google/flan-t5-large", device_map="auto")
         self.model.eval()
 
-    def lang_query(self, text):
-        """Return source language in ISO 639-1 code or return None."""
+    # def lang_query(self, text):
+    #     """Return source language in ISO 639-1 code or return None."""
 
-        query = ('You will be provided a text that may be in one or more languages. '
-                 'If the majority of this text is in a single language, please return the ISO 639-1 language code. '
-                 'If two or more languages make up large portions of the text, please return the word "None".\n'
-                 'Here is the provided text: \n'
-                )
+    #     query = ('You will be provided a text that may be in one or more languages. '
+    #              'If the majority of this text is in a single language, please return the ISO 639-1 language code. '
+    #              'If two or more languages make up large portions of the text, please return the word "None".\n'
+    #              'Here is the provided text: \n'
+    #             )
         
-        encoded = self.tokenizer.encode(query + text, return_tensors='pt').input_ids.to("cuda")
+    #     encoded = self.tokenizer.encode(query + text, return_tensors='pt').input_ids.to("cuda")
 
-        output = self.model.generate(encoded, max_length=10)
-        text_output = self.tokenizer.decode(output[0], skip_special_tokens=True)
+    #     output = self.model.generate(encoded, max_length=10)
+    #     text_output = self.tokenizer.decode(output[0], skip_special_tokens=True)
 
         
-        return text_output
+    #     return text_output
 
     def summary(self, text):
         """ Adding a TL;DR token at the end of the text"""
@@ -42,16 +42,21 @@ class T5():
         input_text = "Text:\n\n\n" + sample_prompt + "\n\n\n" + "Text:\n\n\n" + text + "\n\n\n" + "What is going on?\n"
         input_text = "Briefly summarize this text: " + text
 
-        print(f"Simplify target: {input_text}\n\n")
-        input_ids = self.tokenizer(input_text, return_tensors="pt").input_ids.to("cuda")
+        query = "Briefly summarize this text: "
+        out = ""
+        for t in text.split(". "):
+            print(f"Simplify target: {query + t}\n\n")
+            input_ids = self.tokenizer(query + t, return_tensors="pt").input_ids.to("cuda")
 
-        output = self.model.generate(input_ids, max_new_tokens = 50).cpu()
-        text_output = self.tokenizer.decode(output[0], skip_special_tokens=True)
-        # text_output = text_output[len_input:]
-        print(f"Output: {text_output}")
+            output = self.model.generate(input_ids, max_new_tokens = 50).cpu()
+            text_output = self.tokenizer.decode(output[0], skip_special_tokens=True)\
+        
+            # text_output = text_output[len_input:]
+            print(f"Output: {text_output}")
+            out = out + text_output + " "
 
 
-        return text_output
+        return out
     
     def query(self, text, **kwargs):
         """Check source language, then perform query."""
