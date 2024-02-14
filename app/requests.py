@@ -12,7 +12,7 @@ def get_text():
 
     # Not dealing with sessions for now because I genuinely don't think we need
     # info that persists between requests?
-    translate = flask.request.args.get('translate', default=True, type=bool)
+    translate = True if flask.request.args.get('translate', default="false", type=str) == "true" else False
     simplify = flask.request.args.get('simplify', default=0, type=int)
     target = flask.request.args.get('target_lang', default="en", type=str)
     text = flask.request.args.get('text', default=None, type=str)

@@ -2,12 +2,14 @@ from app.models.gpt2 import *
 from app.models.gpt3_5 import *
 from app.models.llama import *
 from app.models.gpt3 import *
+from app.models.t5 import *
 from app.credentials import *
 
-gpt2 = True
+gpt2 = False
 gpt3 = False
-gpt35 = True
+gpt35 = False
 llama = False
+t5 = True
 
 if gpt2:
     model = GPT2()
@@ -17,5 +19,7 @@ elif llama:
     pass
 elif gpt3:
     pass
+elif t5:
+    model = T5()
 else:
     print("Error: unrecognized model")

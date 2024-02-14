@@ -2,6 +2,7 @@ from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
 class GPT2():
     def __init__(self):
+        print("Loading model...")
         self.tokenizer = GPT2Tokenizer.from_pretrained('gpt2-large')
         self.model = GPT2LMHeadModel.from_pretrained('gpt2-large')
         self.model.eval()
@@ -38,14 +39,27 @@ class GPT2():
     
     def query(self, text, **kwargs):
         """Check source language, then perform query."""
-        lang = self.lang_query(text)
-
-        if lang == 'None':
-            return None, "Multiple languages detected; do you wish to proceed with translation?"
         
-        if kwargs["translate"] and kwargs["simplify"]:
-            print("Error: simplify is temporarily disabled")
+        
+        if kwargs["translate"] and kwargs["simplify"] is not None:
+            print("Translating and simplifying...\n")
+            print("Error: combined function temporarily disabled - no support for translate\n")
+            return None, None
+        
+            lang = self.lang_query(text)
+
+            if lang == 'None':
+                return None, "Multiple languages detected; do you wish to proceed with translation?"
         elif kwargs["translate"]:
+            print("Translating...\n")
+            print("Error: temporarily disabled - no support for translate\n")
+            return text, "Error: temporarily disabled"
+        
+            lang = self.lang_query(text)
+
+            if lang == 'None':
+                return None, "Multiple languages detected; do you wish to proceed with translation?"
+        
             print(f"translating {text}\n")
             query = ('Please translate the following into ' + kwargs["target"] + ':\n')
             encoded = self.tokenizer.encode(query + text, return_tensors='pt')
@@ -57,6 +71,10 @@ class GPT2():
             
             return text_output, None
         elif kwargs["simplify"]:
-            print("Error: temporarily disabled")
+            print("Simplifying...\n")
+            if kwargs["simplify"] == 0:
+                return text, None
+            print(f"Simplifying{text}")
+            return self.summary(text), None
         else:
-            print("Error bad query: translate and simplify args not specified")
+            return text, "Note: no translate or simplify args specified"

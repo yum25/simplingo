@@ -18,3 +18,5 @@ We use [TypeScript](https://www.typescriptlang.org) to write the extension itsel
 
 
 For the requisite Python environment, run the following (with appropriate modification):  ```python -m venv env``` to create an environment, ```source env/bin/activate``` to activate it, ```pip install -r requirements.txt``` to install necessary packages. 
+
+To run the Flask app, simply run the ```app.py``` script. It should run on localhost by default and be able to accept HTTP requests where parameters are formatted as URL query parameters.

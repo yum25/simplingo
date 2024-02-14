@@ -17,27 +17,29 @@ def create_app():
 
     from app import models
     from app.requests import bp, get_text
+    from app import static
 
     app.register_blueprint(bp)
     app.register_blueprint(models.bp)
 
     @app.route('/', methods=['GET'])
     def index():
-        return 'Hello, world!'
+        return flask.send_from_directory('static/', 'consent-short.html')
     
-    @app.route('/get_hi', methods=['GET'])
-    def get_hi():
-        """Parses translation/ simplification request and returns appropriate text."""
+    # Purely for testing purposes
+    # @app.route('/get_hi', methods=['GET'])
+    # def get_hi():
+    #     """Parses translation/ simplification request and returns appropriate text."""
 
-        # Not dealing with sessions for now because I genuinely don't think we need
-        # info that persists between requests?
-        translate = flask.request.args.get('translate', default=True, type=bool)
-        simplify = flask.request.args.get('simplify', default=0, type=int)
-        target = flask.request.args.get('target_lang', default="en", type=str)
-        text = flask.request.args.get('text', default=None, type=str)
-        if translate:
-            return str(simplify)
-        else:
-            return "bye"
+    #     # Not dealing with sessions for now because I genuinely don't think we need
+    #     # info that persists between requests?
+    #     translate = flask.request.args.get('translate', default=True, type=bool)
+    #     simplify = flask.request.args.get('simplify', default=0, type=int)
+    #     target = flask.request.args.get('target_lang', default="en", type=str)
+    #     text = flask.request.args.get('text', default=None, type=str)
+    #     if translate:
+    #         return str(simplify)
+    #     else:
+    #         return "bye"
 
     return app
