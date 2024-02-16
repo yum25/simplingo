@@ -40,9 +40,9 @@ const parseDocumentText = (el, documentText, handleDocumentText) => {
                     parseDocumentText(node, documentText, handleDocumentText);
                 }
                 break;
-            case Node.TEXT_NODE:
-                handleDocumentText(node, documentText);
-                break;
+            // case Node.TEXT_NODE:
+            //     handleDocumentText(node, documentText);
+            //     break;
             case Node.DOCUMENT_NODE:
                 parseDocumentText(node, documentText, handleDocumentText);
         }
@@ -106,7 +106,7 @@ const simplifyDOM = (data, text) => {
 }
 
 const handleRequest = (type, data) => {
-    const documentText = document.body.innerText;
+    const documentText = getDOMText();
     switch (type) {
         case MESSAGE.TRANSLATE_REQUEST:
             translateDOM(data, documentText);
