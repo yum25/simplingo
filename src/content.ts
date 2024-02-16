@@ -1,21 +1,30 @@
 import { sendResponse, addMessageListener } from "./messaging";
 import { MESSAGE } from "./types";
 
-const verifyText = (node) => {
+const textElements = ["P"];
+
+const verifyText = (node, text) => {
     return !/SCRIPT|STYLE/.test(node.parentNode.tagName) && 
-    node.textContent.trim().length > 0 &&
-   /[a-zA-Z]/g.test(node.textContent)
+    text.trim().length > 0 &&
+   /[a-zA-Z]/g.test(text)
 }
 
 const addDocumentText = (el, documentText) => {
-    if (verifyText(el)) {
-        documentText.push(el.textContent.trim());
+    const text = el.nodeType === Node.ELEMENT_NODE ? el.innerHTML : el.textContent;
+    if (verifyText(el, text)) {
+        documentText.push(text.trim());
     }
 }
 
 const replaceDocumentText = (el, newText) => {
-    if (verifyText(el)) {
-        el.textContent = newText.shift();
+    const text = el.nodeType === Node.ELEMENT_NODE ? el.innerHTML : el.textContent;
+    if (verifyText(el, text)) {
+        if (el.nodeType === Node.ELEMENT_NODE) {
+            el.innerHTML = newText.shift();
+        }
+        else {
+            el.textContent = newText.shift();
+        }
     }
 }
 
@@ -24,7 +33,12 @@ const parseDocumentText = (el, documentText, handleDocumentText) => {
     for (let node of el.childNodes) {
         switch (node.nodeType) {
             case Node.ELEMENT_NODE:
-                parseDocumentText(node, documentText, handleDocumentText);
+                if (textElements.includes(node.tagName)) {
+                    handleDocumentText(node, documentText, handleDocumentText);
+                }
+                else {
+                    parseDocumentText(node, documentText, handleDocumentText);
+                }
                 break;
             case Node.TEXT_NODE:
                 handleDocumentText(node, documentText);
