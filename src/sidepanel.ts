@@ -25,6 +25,12 @@ document.addEventListener('DOMContentLoaded', function() {
     var translateValue = translateToggle.checked;
     var simplifyValue = simplifyToggle.checked;
 
+    var activateButton = document.getElementById('activate');
+
+    activateButton?.addEventListener('click', function() {
+      sendRequest(MESSAGE.TRANSLATE_REQUEST, { translate: translateValue, simplify: simplifyValue });
+    })
+
     // translateToggle?.addEventListener('click', function() {
     //   // Add translation functionality here
     //   sendRequest(MESSAGE.TRANSLATE_REQUEST, { });
