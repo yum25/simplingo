@@ -19,16 +19,19 @@ function handleResponse(type, data) {
 addMessageListener(handleResponse);
 
 document.addEventListener('DOMContentLoaded', function() {
-    var translateBtn = document.getElementById('translate');
-    var simplifyBtn = document.getElementById('simplify');
+    var translateToggle = <HTMLInputElement> document.getElementById('translate')
+    var simplifyToggle = <HTMLInputElement> document.getElementById('simplify');
     
-    translateBtn?.addEventListener('click', function() {
-      // Add translation functionality here
-      sendRequest(MESSAGE.TRANSLATE_REQUEST, { });
-    });
+    var translateValue = translateToggle.checked;
+    var simplifyValue = simplifyToggle.checked;
+
+    // translateToggle?.addEventListener('click', function() {
+    //   // Add translation functionality here
+    //   sendRequest(MESSAGE.TRANSLATE_REQUEST, { });
+    // });
   
-    simplifyBtn?.addEventListener('click', function() {
-      // Add simplify functionality here
-      sendRequest(MESSAGE.SIMPLIFY_REQUEST, { });
-    });
+    // simplifyToggle?.addEventListener('click', function() {
+    //   // Add simplify functionality here
+    //   sendRequest(MESSAGE.SIMPLIFY_REQUEST, { });
+    // });
 });
