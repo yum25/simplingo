@@ -3,15 +3,10 @@ import { MESSAGE } from "./types";
 
 function handleResponse(type, data) {
   switch(type) {
-    case MESSAGE.TRANSLATE_RESPONSE:
+    case MESSAGE.RESPONSE:
       console.log(data)
-      const translatedText = document.getElementById('translatedText')
-      translatedText!.innerText = data.text;
-      break;
-    case MESSAGE.SIMPLIFY_RESPONSE:
-      console.log(data);
-      const simplifiedText = document.getElementById('simplifiedText')
-      simplifiedText!.innerText = data.text;
+      const outputText = document.getElementById('outputText')
+      outputText!.innerText = data.text;
       break;
   }
 }
@@ -28,16 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var activateButton = document.getElementById('activate');
 
     activateButton?.addEventListener('click', function() {
-      sendRequest(MESSAGE.TRANSLATE_REQUEST, { translate: translateValue, simplify: simplifyValue });
+      sendRequest(MESSAGE.REQUEST, { translate: translateValue, simplify: simplifyValue, language: "zh" });
     })
 
-    // translateToggle?.addEventListener('click', function() {
-    //   // Add translation functionality here
-    //   sendRequest(MESSAGE.TRANSLATE_REQUEST, { });
-    // });
-  
-    // simplifyToggle?.addEventListener('click', function() {
-    //   // Add simplify functionality here
-    //   sendRequest(MESSAGE.SIMPLIFY_REQUEST, { });
-    // });
 });
