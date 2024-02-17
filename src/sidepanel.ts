@@ -21,9 +21,18 @@ document.addEventListener('DOMContentLoaded', function() {
     var simplifyValue = simplifyToggle.checked;
 
     var activateButton = document.getElementById('activate');
+    var closeButton = document.getElementById('close')
+    
 
     activateButton?.addEventListener('click', function() {
       sendRequest(MESSAGE.REQUEST, { translate: translateValue, simplify: simplifyValue, language: "zh" });
     })
+
+    closeButton?.addEventListener('click', function() {
+      const sidePanel = <HTMLInputElement> document.getElementById("side-panel");
+      if (sidePanel) {
+        sidePanel.style.display = "none";
+      }
+    });
 
 });
