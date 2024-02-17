@@ -14,25 +14,23 @@ function handleResponse(type, data) {
 addMessageListener(handleResponse);
 
 document.addEventListener('DOMContentLoaded', function() {
-    var translateToggle = <HTMLInputElement> document.getElementById('translate')
-    var simplifyToggle = <HTMLInputElement> document.getElementById('simplify');
-    
-    var translateValue = translateToggle.checked;
-    var simplifyValue = simplifyToggle.checked;
+    const translateToggle = <HTMLInputElement> document.getElementById('translate')
+    const simplifyToggle = <HTMLInputElement> document.getElementById('simplify');
+    const languageDropdown = <HTMLSelectElement> document.getElementById("chooseLang");
 
-    var activateButton = document.getElementById('activate');
-    var closeButton = document.getElementById('close')
-    
+    const activateButton = <HTMLButtonElement> document.getElementById('activate');
+    const closeButton = <HTMLButtonElement> document.getElementById('close');
 
     activateButton?.addEventListener('click', function() {
-      sendRequest(MESSAGE.REQUEST, { translate: translateValue, simplify: simplifyValue, language: "zh" });
+      const translate:boolean = translateToggle.checked;
+      const simplify:boolean = simplifyToggle.checked;
+      const language:string = languageDropdown.value;
+  
+      sendRequest(MESSAGE.REQUEST, { translate, simplify, language });
     })
 
     closeButton?.addEventListener('click', function() {
-      const sidePanel = <HTMLInputElement> document.getElementById("side-panel");
-      if (sidePanel) {
-        sidePanel.style.display = "none";
-      }
+      sendRequest(MESSAGE.SIDEBAR_TOGGLE, {});
     });
 
 });

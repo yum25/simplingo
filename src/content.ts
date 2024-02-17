@@ -64,6 +64,7 @@ const translateSimplifyDOM = (data, text) => {
     // TODO: send API translation request to backend and modify DOM based on response
 
     // comment this out when testing translation backend
+    // alert(JSON.stringify(data));
     // sendResponse(MESSAGE.RESPONSE, { text });
 
     // comment this out when testing frontend message listeners

@@ -13,7 +13,7 @@ iframe.style.width = "0px";
 iframe.style.position = "fixed";
 iframe.style.bottom = "0px";
 iframe.style.right = "0px";
-iframe.style.border = "3px solid gray";
+iframe.style.border = "none";
 iframe.style.zIndex = "9000000000000000000";
 iframe.src = browser.runtime.getURL("sidepanel.html")
 
