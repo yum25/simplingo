@@ -1,35 +1,35 @@
 import { sendResponse, addMessageListener } from "./messaging";
-import { MESSAGE } from "./types";
+import { Message, MessageData } from "./types";
 
 const textElements = ["P"];
 
-const verifyText = (node, text) => {
+const verifyText = (node, text:string) => {
     return !/SCRIPT|STYLE/.test(node.parentNode.tagName) && 
     text.trim().length > 0 &&
    /[a-zA-Z]/g.test(text)
 }
 
-const addDocumentText = (el, documentText) => {
-    const text = el.nodeType === Node.ELEMENT_NODE ? el.innerHTML : el.textContent;
+const addDocumentText = (el:HTMLElement, documentText:Array<string>) => {
+    const text:string = (el.nodeType === Node.ELEMENT_NODE ? el.innerHTML : el.textContent) ?? "";
     if (verifyText(el, text)) {
         documentText.push(text.trim());
     }
 }
 
-const replaceDocumentText = (el, newText) => {
-    const text = el.nodeType === Node.ELEMENT_NODE ? el.innerHTML : el.textContent;
+const replaceDocumentText = (el:HTMLElement, newText:Array<string>) => {
+    const text:string =(el.nodeType === Node.ELEMENT_NODE ? el.innerHTML : el.textContent) ?? "";
     if (verifyText(el, text)) {
         if (el.nodeType === Node.ELEMENT_NODE) {
-            el.innerHTML = newText.shift();
+            el.innerHTML = newText.shift() ?? "";
         }
         else {
-            el.textContent = newText.shift();
+            el.textContent = newText.shift() ?? null;
         }
     }
 }
 
 // See https://stackoverflow.com/questions/5558613/replace-words-in-the-body-text
-const parseDocumentText = (el, documentText, handleDocumentText) => {
+const parseDocumentText = (el, documentText:Array<string>, handleDocumentText:Function) => {
     for (let node of el.childNodes) {
         switch (node.nodeType) {
             case Node.ELEMENT_NODE:
@@ -56,11 +56,11 @@ const getDOMText = () => {
     return documentText;
 }
 
-const replaceDOMText = (newText) => {
+const replaceDOMText = (newText:Array<string>) => {
     parseDocumentText(document.body, newText, replaceDocumentText);
 }
 
-const translateSimplifyDOM = (data, text) => {
+const translateSimplifyDOM = (data:MessageData, text) => {
     // TODO: send API translation request to backend and modify DOM based on response
 
     // comment this out when testing translation backend
@@ -76,7 +76,7 @@ const translateSimplifyDOM = (data, text) => {
         return resp.json();
     })
     .then((data) => {
-        sendResponse(MESSAGE.RESPONSE, data);
+        sendResponse(Message.RESPONSE, data);
     })
     .catch((error) => {
         console.error(error);
@@ -84,10 +84,10 @@ const translateSimplifyDOM = (data, text) => {
     });
 }
 
-const handleRequest = (type, data) => {
+const handleRequest = (type:Message, data:MessageData) => {
     const documentText = getDOMText();
     switch (type) {
-        case MESSAGE.REQUEST:
+        case Message.REQUEST:
             translateSimplifyDOM(data, documentText);
             break;
         default:

@@ -1,7 +1,7 @@
-import { sendMessage } from "./messaging";
-import { MESSAGE } from "./types";
-import browser from "webextension-polyfill";
+import { getValueFromStorage, setValueToStorage } from "./storage";
+import browser, { Tabs } from "webextension-polyfill";
 
-browser.action.onClicked.addListener((tab) => {
-    sendMessage(tab.id, MESSAGE.SIDEBAR_TOGGLE, {} )
+browser.action.onClicked.addListener(async (tab:Tabs.Tab) => {
+  const value = await getValueFromStorage('sidebarOpen');
+  setValueToStorage('sidebarOpen', !value);
   })

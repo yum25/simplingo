@@ -3,7 +3,7 @@
   "name": "SimpLingo",
   "version": "1.0",
   "description": "A browser extension for translating and simplifying text.",
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "storage"],
   "action": {},
   "content_scripts":[
     {
