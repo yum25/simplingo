@@ -65,7 +65,16 @@ document.addEventListener('DOMContentLoaded', function() {
   const activateButton = <HTMLButtonElement> document.getElementById('activate');
   const closeButton = <HTMLButtonElement> document.getElementById('close');
 
-  activateButton?.addEventListener('click', function() {
+  translateToggle.addEventListener('click', function() {
+    const selectOptions = <HTMLElement> document.getElementById("select-options");
+    if (translateToggle.checked) {
+      selectOptions!.style.display = "flex";
+    } else {
+      selectOptions!.style.display = "none";
+    }
+  })
+
+  activateButton.addEventListener('click', function() {
     const translate:boolean = translateToggle.checked;
     const simplify:boolean = simplifyToggle.checked;
     const language:string = languageDropdown.value;
@@ -73,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
     sendRequest(Message.REQUEST, { translate, simplify, language });
   })
 
-  closeButton?.addEventListener('click', async function() {
+  closeButton.addEventListener('click', async function() {
     const value = await getValueFromStorage('sidebarOpen');
     setValueToStorage('sidebarOpen', !value);
   });
