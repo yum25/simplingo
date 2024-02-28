@@ -7,12 +7,12 @@
   <link rel="stylesheet" href="sidepanel.css">
 </head>
 <body>
-<div id="side-panel">
+<div id="side-panel" style="display: flex; flex-direction: column; justify-content: space-around; height: 100%;">
   <nav>
     <button id="close">X</button>
   </nav>
   <h1>SimpLingo</h1>
-  <section id="switch-options">
+  <section id="switch-options" style="display: flex; justify-content: space-around;">
     <div>
       <h3>Translate</h3>
       <label class="switch">
@@ -28,7 +28,7 @@
       </label>
     </div>
   </section>
-  <section id="select-options">
+  <section id="select-options" style="display: flex; flex-direction: column; align-items: center; font-size: 20px;">
     <p>Choose your preferred language:</p>
     <select id="chooseLang">
       <option value="en">English</option>
@@ -40,6 +40,29 @@
     </select>
   </section>
 <button id="activate">GO!</button>
+<section id="keybind-options">
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+    <h3>Keyboard Shortcuts</h3>
+    <button id="edit-keybinds">Edit</button>
+  </div>
+  <ul>
+    <li>
+      Toggle sidepanel: <span>Option</span> + <span>A</span>
+    </li>
+    <li>
+      Translate page: <span>Option</span> + <span>T</span>
+    </li>
+    <li>
+      Simplify page: <span>Option</span> + <span>S</span>
+    </li>
+    <li>
+      Activate Go button: <span>Option</span> + <span>G</span>
+    </li>
+  </ul>
+</section>
+<dialog id="keybind-modal">
+  <div style="background: red; width: 10rem;"></div>
+</dialog>
 <p id="outputText"></p>
 </div>
 <script src="sidepanel.js"></script>

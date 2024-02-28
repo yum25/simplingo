@@ -87,4 +87,11 @@ document.addEventListener('DOMContentLoaded', function() {
     setValueToStorage('sidebarOpen', !value);
   });
 
+  const editKeybindButton = <HTMLButtonElement> document.getElementById('edit-keybinds');
+
+  editKeybindButton.addEventListener('click', function() {
+    const keybindModal = <HTMLDialogElement> document.getElementById('keybind-modal');
+    keybindModal.showModal();
+  })
+
 });
