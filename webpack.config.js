@@ -43,6 +43,9 @@ module.exports = {
       },
     ],
   },
+  optimization: {
+    minimize: true,
+  },
   plugins: [
     new CopyWebpackPlugin({
       patterns: [{
