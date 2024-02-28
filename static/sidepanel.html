@@ -7,37 +7,41 @@
   <link rel="stylesheet" href="sidepanel.css">
 </head>
 <body>
-<div id = "side-panel">
-  <div class="container">
-    
-    <h3> TRANSLATE </h3>
-    <label class="switch">
-      <input id="translate" type="checkbox">
-      <span class="slider round"></span>
-    </label>
-
-    <h3> SIMPLIFY </h3>
-    <label class="switch">
-      <input id="simplify" type="checkbox">
-      <span class="slider round"></span>
-    </label>
-
+<div id="side-panel">
+  <nav>
+    <button id="close">X</button>
+  </nav>
+  <h1>SimpLingo</h1>
+  <section id="switch-options">
+    <div>
+      <h3> Translate </h3>
+      <label class="switch">
+        <input id="translate" type="checkbox">
+        <span class="slider round"></span>
+      </label>
+    </div>
+    <div>
+      <h3> Simplify </h3>
+      <label class="switch">
+        <input id="simplify" type="checkbox">
+        <span class="slider round"></span>
+      </label>
+    </div>
+  </section>
+  <section id="select-options">
+    <p>Choose your preferred language:</p>
     <select id="chooseLang">
       <option value="en">English</option>
       <option value="es">Spanish</option>
-      <option value="zh">Chinese</option>
+      <option value="zh">中文</option>
       <option value="fr">French</option>
       <option value="de">German</option>
       <!-- add other langs -->
     </select>
-
-    <button id="activate">GO</button>
-    <button id="close">CLOSE</button>
-
-    <h4> Output Text: </h4>
-    <p id="outputText"></p>
-  </div>
+  </section>
+<button id="activate">GO!</button>
+<p id="outputText"></p>
 </div>
-  <script src="sidepanel.js"></script>
+<script src="sidepanel.js"></script>
 </body>
 </html>
