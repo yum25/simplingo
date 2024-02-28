@@ -10,6 +10,8 @@ Run ```npm install```. To initialize a dev environment, run ```npm run build``` 
 
 Go to [chrome://extensions](chrome://extensions) and press ```Load unpacked```, and select the recently built ```/dist``` directory. All of your changes to the source content will be reflected in real time in this build. To see new changes, reload the extension.
 
+To start a development server with hot reload, run ```npm run dev```. This is preferable to building and running on chrome itself, since we do not have to reload the page and any changes will be automatically reflected on the page. 
+
 ## Dependencies
 
 This project is built and bundled using [webpack](https://webpack.js.org) and [babel](https://www.npmjs.com/package/babel-loader). This comes with multiple benefits: real time build refresh, ES6 style imports/exports, and the ability to modularize files. 

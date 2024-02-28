@@ -1,6 +1,9 @@
 // See https://github.com/saisandeepvaddi/web-extension-communication-blog-post for webpack and babel configs
 // ** as well as messaging.ts and types.ts
 
+// See https://stackoverflow.com/questions/70615305/hot-live-reloading-for-react-chrome-extension for how to hot reload
+// local development with webpack-dev-server
+
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
@@ -48,5 +51,15 @@ module.exports = {
         from: 'static'
       }],
     }),
-  ]
+  ],
+  devServer: {
+    devMiddleware: {
+      writeToDisk: true,
+    },
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
+    compress: true,
+    port: 9000,
+  },
 }
