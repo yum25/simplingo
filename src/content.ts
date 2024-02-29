@@ -1,12 +1,6 @@
 import { sendResponse as sendBackgroundRequest, addMessageListener, sendRequest, sendMessage } from "./messaging";
 import { Message, MessageData } from "./types";
 
-var dialog = document.createElement('dialog');
-dialog.id = "loading-screen";
-dialog.style.textAlign = "center"
-dialog.innerHTML = "<p>Processing page...</p><p>Please wait around 15-20 seconds for results to appear</p>"
-document.body.appendChild(dialog)
-
 const textElements = ["P"];
 
 const verifyText = (node, text:string) => {
@@ -68,14 +62,14 @@ const replaceDOMText = (newText:Array<string>) => {
 
 const handleRequest = (type:Message, data:MessageData) => {
     const text = document.body.innerText;
+    const loadingScreen = <HTMLDialogElement> document.getElementById('loading-screen');
     switch (type) {
         case Message.REQUEST:
-            // FIXME: dialog should be in inject.ts, currently placed here for convenience.
-            dialog.showModal();
+            loadingScreen?.showModal();
             sendBackgroundRequest(Message.GET_REQUEST, {...data, text });
             break;
         case Message.GET_RESPONSE:
-            dialog.close();
+            loadingScreen?.close();
             if (data.text) document.body.innerText = data.text;
             if (data.error) alert(`Error: ${JSON.stringify(data.error)}`);
             break;

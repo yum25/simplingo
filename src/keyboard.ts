@@ -8,10 +8,12 @@ import { Message } from "./types";
 // content script.
 
 document.addEventListener("keydown", async function (e) {
+  const loadingScreen = <HTMLDialogElement> document.getElementById('loading-screen');
   if (e.ctrlKey && e.key === "a") {
     const value = await getValueFromStorage("sidebarOpen");
     setValueToStorage("sidebarOpen", !value);
   } else if (e.ctrlKey && e.key === "t") {
+    loadingScreen?.showModal();
     sendBackgroundRequest(Message.GET_REQUEST, {
       translate: true,
       simplify: false,
@@ -19,6 +21,7 @@ document.addEventListener("keydown", async function (e) {
       text: document.body.innerText,
     });
   } else if (e.ctrlKey && e.key === "s") {
+    loadingScreen?.showModal();
     sendBackgroundRequest(Message.GET_REQUEST, {
       translate: false,
       simplify: true,
@@ -26,6 +29,7 @@ document.addEventListener("keydown", async function (e) {
       text: document.body.innerText,
     });
   } else if (e.ctrlKey && e.key === "g") {
+    loadingScreen?.showModal();
     sendBackgroundRequest(Message.GET_REQUEST, {
       translate: await getValueFromStorage("translate"),
       simplify: await getValueFromStorage("simplify"),
