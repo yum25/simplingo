@@ -48,10 +48,15 @@ dialog.innerHTML = `
   </ul>
 `;
 
+var loadingScreen = document.createElement('dialog');
+loadingScreen.id = "loading-screen";
+loadingScreen.style.textAlign = "center"
+loadingScreen.innerHTML = "<p>Processing page...</p><p>Please wait around 15-20 seconds for results to appear</p>"
+
 document.body.style.paddingRight = "0px";
 document.body.appendChild(iframe);
 document.body.appendChild(dialog);
-
+document.body.appendChild(loadingScreen)
 
 toggleSidebar(await getValueFromStorage('sidebarOpen'))
 storageChangeListener(function(changes) {
