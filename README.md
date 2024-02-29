@@ -25,7 +25,7 @@ To run the Flask app, simply run the ```app.py``` script. It should run on local
 You can test sending requests to the server using curl, such as with a command like this: ```curl 'http://localhost:5000/get_text?translate=false&simplify=true&text=Ineluctable%20modality%20of%20the%20visible&target_lang=en'```
 
 To set the model used by the backend for testing purposes, go to models/__init__.py (this will later be changed to use a config variable, probably). For the credentials for GPT-3.5+ and Gemini, create a credentials file to hold the keys. Your file tree should look like this:
-
+```
 app
 ├── __init__.py
 ├── credentials.py
@@ -41,5 +41,5 @@ app
 │   └── t5.py
 ├── requests.py
 └── static/...
-
+```
 and credentials.py should contain ```OPENAI_KEY = '[key]'``` and ```GEN_AI_KEY = '[key]'```, replacing ```[key]``` with the appropriate key. (You can leave them empty if you're not using them.)
