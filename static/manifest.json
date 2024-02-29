@@ -13,6 +13,10 @@
     {
       "matches":["<all_urls>"],
      "js":["inject.js"]
+    },
+    {
+      "matches":["<all_urls>"],
+     "js":["keyboard.js"]
     }
   ],
   "background": {
