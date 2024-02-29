@@ -8,19 +8,6 @@ import {
   storageChangeListener 
 } from "./storage";
 
-// This function will eventually be deleted after successfully
-// replacing text in the DOM (or can be repurposed in the future for error handling)
-function handleResponse(type:Message, data:MessageData) {
-  switch(type) {
-    case Message.RESPONSE:
-      console.log(data)
-      const outputText = document.getElementById('outputText')
-      outputText!.innerText = <string> data.text;
-      break;
-  }
-}
-addMessageListener(handleResponse);
-
 document.addEventListener('DOMContentLoaded', function() {
   const translateToggle = <HTMLInputElement> document.getElementById('translate');
   const simplifyToggle = <HTMLInputElement> document.getElementById('simplify');

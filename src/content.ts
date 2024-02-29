@@ -1,5 +1,11 @@
-import { sendResponse, addMessageListener } from "./messaging";
+import { sendResponse as sendBackgroundRequest, addMessageListener, sendRequest, sendMessage } from "./messaging";
 import { Message, MessageData } from "./types";
+
+var dialog = document.createElement('dialog');
+dialog.id = "loading-screen";
+dialog.style.textAlign = "center"
+dialog.innerHTML = "<p>Processing page...</p><p>Please wait around 15-20 seconds for results to appear</p>"
+document.body.appendChild(dialog)
 
 const textElements = ["P"];
 
@@ -60,35 +66,18 @@ const replaceDOMText = (newText:Array<string>) => {
     parseDocumentText(document.body, newText, replaceDocumentText);
 }
 
-const translateSimplifyDOM = (data:MessageData, text) => {
-    // TODO: send API translation request to backend and modify DOM based on response
-
-    // comment this out when testing translation backend
-    // alert(JSON.stringify(data));
-    // sendResponse(MESSAGE.RESPONSE, { text });
-
-    // comment this out when testing frontend message listeners
-    fetch(`http://127.0.0.1:5000/get_text?translate=${data.translate}&simplify=${data.simplify}&text=${text}&target_lang=${data.language}`, { mode: 'no-cors'})
-    .then((resp) => {
-        if (!resp.ok) {
-            throw new Error(`${resp.status}: ${resp.statusText}`);
-        }
-        return resp.json();
-    })
-    .then((data) => {
-        sendResponse(Message.RESPONSE, data);
-    })
-    .catch((error) => {
-        console.error(error);
-        alert("Error: failed to translate. Please try again.");
-    });
-}
-
 const handleRequest = (type:Message, data:MessageData) => {
-    const documentText = getDOMText();
+    const text = document.body.innerText;
     switch (type) {
         case Message.REQUEST:
-            translateSimplifyDOM(data, documentText);
+            // FIXME: dialog should be in inject.ts, currently placed here for convenience.
+            dialog.showModal();
+            sendBackgroundRequest(Message.GET_REQUEST, {...data, text });
+            break;
+        case Message.GET_RESPONSE:
+            dialog.close();
+            if (data.text) document.body.innerText = data.text;
+            if (data.error) alert(`Error: ${JSON.stringify(data.error)}`);
             break;
         default:
             break;

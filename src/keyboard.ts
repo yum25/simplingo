@@ -1,4 +1,4 @@
-import { sendRequest } from "./messaging";
+import { sendResponse as sendBackgroundRequest } from "./messaging";
 import { getValueFromStorage, setValueToStorage } from "./storage";
 import { Message } from "./types";
 
@@ -12,22 +12,25 @@ document.addEventListener("keydown", async function (e) {
     const value = await getValueFromStorage("sidebarOpen");
     setValueToStorage("sidebarOpen", !value);
   } else if (e.ctrlKey && e.key === "t") {
-    sendRequest(Message.REQUEST, {
+    sendBackgroundRequest(Message.GET_REQUEST, {
       translate: true,
       simplify: false,
       language: await getValueFromStorage("language"),
+      text: document.body.innerText,
     });
   } else if (e.ctrlKey && e.key === "s") {
-    sendRequest(Message.REQUEST, {
+    sendBackgroundRequest(Message.GET_REQUEST, {
       translate: false,
       simplify: true,
       language: await getValueFromStorage("language"),
+      text: document.body.innerText,
     });
   } else if (e.ctrlKey && e.key === "g") {
-    sendRequest(Message.REQUEST, {
+    sendBackgroundRequest(Message.GET_REQUEST, {
       translate: await getValueFromStorage("translate"),
       simplify: await getValueFromStorage("simplify"),
       language: await getValueFromStorage("language"),
+      text: document.body.innerText,
     });
   }
 });
