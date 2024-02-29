@@ -27,7 +27,7 @@ class Bard():
         """Perform simple translation query."""
 
         prompt = "Translate this text into " + target + ": "
-        return self.model.generate_content(prompt + text)
+        return self.model.generate_content(prompt + text).text
 
     def query(self, text, **kwargs):
         """Perform query."""
@@ -41,14 +41,17 @@ class Bard():
         elif kwargs["translate"]:
             print("Translating...\n")
 
-            return self.translate(text, kwargs["target"])
+            response = self.translate(text=text, target=kwargs["target"])
+            print(response)
+
+            return response, None
         elif kwargs["simplify"]:
             print("Simplifying...\n")
 
             # TODO: enable for tiered simplification
             # if kwargs["simplify"] == 0:
             #     return text, None
-            
+
             response = self.summary(text, kwargs["simplify"])
             print(response)
 
