@@ -3,7 +3,6 @@ import browser from 'webextension-polyfill';
 export function setValuesFromStorage(globalVars:Array<{ element:HTMLElement, elementVar:string, key:string, default:any }>) {
     browser.storage.sync.get().then((storage) => {
         globalVars.forEach((globalVar) => {
-            console.log(storage[globalVar.key])
             globalVar.element[globalVar.elementVar] = storage[globalVar.key] ?? globalVar.default;
         })
     })
