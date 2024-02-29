@@ -3,6 +3,8 @@
 
 import browser from "webextension-polyfill";
 import { getValueFromStorage, storageChangeListener } from "./storage";
+import { addMessageListener } from "./messaging";
+import { Message, MessageData } from "./types";
 
 function toggleSidebar(sidebarOpen:boolean) {
     if (sidebarOpen) {
@@ -16,7 +18,7 @@ function toggleSidebar(sidebarOpen:boolean) {
 }
 
 var iframe = document.createElement('iframe'); 
-iframe.id = "simplingo"
+iframe.id = "simplingo";
 iframe.style.background = "white";
 iframe.style.height = "100%";
 iframe.style.width = "0px";
@@ -27,8 +29,29 @@ iframe.style.border = "none";
 iframe.style.zIndex = "9000000000000000000";
 iframe.src = browser.runtime.getURL("sidepanel.html")
 
+var dialog = document.createElement('dialog');
+dialog.id = "keybind-modal";
+dialog.innerHTML = `
+<ul>
+    <li>
+      Toggle sidepanel: <span>Option</span> + <span>A</span>
+    </li>
+    <li>
+      Translate page: <span>Option</span> + <span>T</span>
+    </li>
+    <li>
+      Simplify page: <span>Option</span> + <span>S</span>
+    </li>
+    <li>
+      Activate Go button: <span>Option</span> + <span>G</span>
+    </li>
+  </ul>
+`;
+
 document.body.style.paddingRight = "0px";
 document.body.appendChild(iframe);
+document.body.appendChild(dialog);
+
 
 toggleSidebar(await getValueFromStorage('sidebarOpen'))
 storageChangeListener(function(changes) {
@@ -36,3 +59,15 @@ storageChangeListener(function(changes) {
         toggleSidebar(changes.sidebarOpen.newValue);
     }
 })
+
+const handleRequest = (type:Message, data:MessageData) => {
+    switch (type) {
+        case Message.OPEN_DIALOG:
+            dialog.showModal();
+            break;
+        default:
+            break;
+    }
+}
+
+addMessageListener(handleRequest);

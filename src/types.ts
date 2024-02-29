@@ -1,7 +1,7 @@
 export enum Message {
     REQUEST,
     RESPONSE,
-    SIDEBAR_TOGGLE
+    OPEN_DIALOG,
 }
 
 export interface MessageData {

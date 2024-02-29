@@ -90,8 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const editKeybindButton = <HTMLButtonElement> document.getElementById('edit-keybinds');
 
   editKeybindButton.addEventListener('click', function() {
-    const keybindModal = <HTMLDialogElement> document.getElementById('keybind-modal');
-    keybindModal.showModal();
+    sendRequest(Message.OPEN_DIALOG, {});
   })
 
 });
