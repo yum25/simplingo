@@ -1,6 +1,6 @@
 dist
 node_modules
 env/*
-api/credentials.py
+app/credentials.py
 config.py
 *__pycache__*
