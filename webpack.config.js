@@ -24,6 +24,7 @@ module.exports = {
   entry,
   devtool: 'cheap-module-source-map',
   output: {
+    publicPath: '',
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js'
   },
@@ -43,9 +44,9 @@ module.exports = {
       },
     ],
   },
-  optimization: {
-    minimize: true,
-  },
+  // optimization: {
+  //   minimize: true,
+  // },
   plugins: [
     new CopyWebpackPlugin({
       patterns: [{
