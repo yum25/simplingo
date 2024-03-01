@@ -23,25 +23,30 @@ class Bard():
         prompt = "Paraphase this text simply: "
         return self.model.generate_content(prompt + text).text
 
-    def translate(self, text, target):
+    def translate(self, text, target, simplify):
         """Perform simple translation query."""
+        if simplify:
+            print("Translating and simplifying...\n")
+        else:
+            print("Translating...\n")
 
-        prompt = "Translate this text into " + target + ": "
+        prompt = "Translate this text into a simple paraphrase in " + target + ": " if simplify else "Translate this text into " + target + ": "
         return self.model.generate_content(prompt + text).text
 
     def query(self, text, **kwargs):
         """Perform query."""
         print("Performing Bard query...")
 
-        if kwargs["translate"] and kwargs["simplify"]: # is not None and kwargs["simplify"] > 0:
-            print("Translating and simplifying...\n")
-            print("Error: combined function temporarily disabled - no support for concurrent translate and simplify yet\n")
-            return None, None
+        # if kwargs["translate"] and kwargs["simplify"]: # is not None and kwargs["simplify"] > 0:
+        #     print("Translating and simplifying...\n")
+        #     return None, None
         
-        elif kwargs["translate"]:
-            print("Translating...\n")
+        # elif kwargs["translate"]:
+            # print("Translating...\n")
 
-            response = self.translate(text=text, target=kwargs["target"])
+        if kwargs["translate"]:
+
+            response = self.translate(text=text, target=kwargs["target"], simplify=kwargs["simplify"])
             print(response)
 
             return response, None
@@ -52,7 +57,7 @@ class Bard():
             # if kwargs["simplify"] == 0:
             #     return text, None
 
-            response = self.summary(text, kwargs["simplify"])
+            response = self.summary(text=text, simplify=kwargs["simplify"])
             print(response)
 
             return response, None
