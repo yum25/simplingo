@@ -8,6 +8,7 @@ export enum Message {
 
 export interface MessageData {
     text?: string,
+    index?: number,
     translate?: boolean,
     simplify?: boolean,
     language?: string,

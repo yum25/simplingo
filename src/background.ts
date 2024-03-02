@@ -18,8 +18,8 @@ const handleMessage = async (type:Message, data:MessageData) => {
           }
           return resp.json();
       })
-      .then((data) => {
-        sendBackgroundResponse(Message.GET_RESPONSE, { text: data.text, error: data.error });
+      .then((query) => {
+        sendBackgroundResponse(Message.GET_RESPONSE, { text: query.text, index: data.index, error: query.error });
       })
       .catch((error) => {
         console.log(error);
