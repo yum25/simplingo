@@ -16,7 +16,7 @@ def get_text():
     # TODO: use for tiered simplify
     # simplify = flask.request.args.get('simplify', default=0, type=int)
     simplify = True if flask.request.args.get('simplify', default="false", type=str) == "true" else False
-    target = flask.request.args.get('target_lang', default="en", type=str)
+    target = flask.request.args.get('target_lang', default="xx", type=str)
     text = flask.request.args.get('text', default=None, type=str)
 
     kwargs = {"translate": translate,

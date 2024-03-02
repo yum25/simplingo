@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
       element: languageDropdown,
       elementVar: "value",
       key: 'language',
-      default: 'en',
+      default: 'xx',
     }
   ])
 
