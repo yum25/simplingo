@@ -1,5 +1,5 @@
 :root {
-  --primary-color-theme: white;
+  --primary-color-theme: rgb(255, 255, 255);
   --secondary-color-theme: rgb(211, 211, 211);
   --text-color-theme: black;
 }
@@ -21,24 +21,32 @@ body {
 }
 
 #close {
-  color: white;
-  background: tomato;
-  
-  border: 2px solid var(--text-color-theme);
-  border-radius: 50%;
-
-  width: 1.5rem;
-  aspect-ratio: 1/1;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: black; /* Elegant black background */
+  color: white; /* White text color for contrast */
+  font-size: 25px; /* Smaller '×' symbol */
+  padding: 0;
+  float: right; /* Align the button to the right */
+  margin: 0px; /* Give some space from the corners */
+  width: 25px; /* Width of the button */
+  height: 25px; /* Height of the button, same as width for square shape */
+  line-height: 25px; /* Center the '×' symbol vertically */
+  text-align: center;
 }
 
 h1 {
   font-size: 2.25rem;
-  text-align: center;
+  font-family: 'Courier New', monospace;
   margin: 0;
+  float: left;
+  top: 0px;
 }
 
 h3 {
   font-size: 20px;
+  font-family: 'Courier New', monospace;
 }
 
 .switch {
