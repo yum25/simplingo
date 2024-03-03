@@ -11,8 +11,28 @@ class Bard():
     def __init__(self, key):
         print('Loading model...')
         apikey = key
+        safety_settings = [
+            {
+                "category": "HARM_CATEGORY_HARASSMENT",
+                "threshold": "BLOCK_NONE"
+            },
+            {
+                "category": "HARM_CATEGORY_HATE_SPEECH",
+                "threshold": "BLOCK_NONE"
+            },
+            {
+                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                "threshold": "BLOCK_NONE"
+            },
+            {
+                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                "threshold": "BLOCK_NONE"
+            }
+        ]
         genai.configure(api_key=apikey)
-        self.model = genai.GenerativeModel('gemini-pro')
+
+        self.model = genai.GenerativeModel(model_name='gemini-pro',
+                                           safety_settings=safety_settings)
 
     def lang_query(self, text):
         pass
@@ -21,7 +41,7 @@ class Bard():
         """Perform simple simplification query."""
 
         prompt = "Paraphase this text simply: "
-        return self.model.generate_content(prompt + text).text
+        return self.model.generate_content(prompt + text)
 
     def translate(self, text, target, simplify):
         """Perform simple translation query."""
@@ -31,7 +51,7 @@ class Bard():
             print("Translating...\n")
 
         prompt = "Translate this text into a simple paraphrase in " + target + ": " if simplify else "Translate this text into " + target + ": "
-        return self.model.generate_content(prompt + text).text
+        return self.model.generate_content(prompt + text)
 
     def query(self, text, **kwargs):
         """Perform query."""
@@ -45,22 +65,30 @@ class Bard():
             # print("Translating...\n")
 
         if kwargs["translate"]:
+            if kwargs["target"] == "xx":
+                print("Unrecognized language for translation\n")
+                return None, "Unrecognized language for translation"
+            try:
+                response = self.translate(text=text, target=kwargs["target"], simplify=kwargs["simplify"]).text
+                print(response)
 
-            response = self.translate(text=text, target=kwargs["target"], simplify=kwargs["simplify"])
-            print(response)
-
-            return response, None
+                return response, None
+            except:
+                return None, "Query output blocked by model"
+            
         elif kwargs["simplify"]:
             print("Simplifying...\n")
 
             # TODO: enable for tiered simplification
             # if kwargs["simplify"] == 0:
             #     return text, None
+            try:
+                response = self.summary(text=text, simplify=kwargs["simplify"]).text
+                print(response)
 
-            response = self.summary(text=text, simplify=kwargs["simplify"])
-            print(response)
-
-            return response, None
+                return response, None
+            except:
+                return None, "Query output blocked by model"
         else:
             print("No args specified")
             return text, "Note: no translate or simplify args specified\n"
