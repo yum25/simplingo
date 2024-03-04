@@ -68,8 +68,10 @@ class Bard():
             if kwargs["target"] == "xx":
                 print("Unrecognized language for translation\n")
                 return None, "Unrecognized language for translation"
+
+            response = self.translate(text=text, target=kwargs["target"], simplify=kwargs["simplify"])
             try:
-                response = self.translate(text=text, target=kwargs["target"], simplify=kwargs["simplify"]).text
+                response = response.text
                 print(response)
 
                 return response, None
@@ -82,8 +84,9 @@ class Bard():
             # TODO: enable for tiered simplification
             # if kwargs["simplify"] == 0:
             #     return text, None
+            response = self.summary(text=text, simplify=kwargs["simplify"])
             try:
-                response = self.summary(text=text, simplify=kwargs["simplify"]).text
+                response = response.text
                 print(response)
 
                 return response, None
