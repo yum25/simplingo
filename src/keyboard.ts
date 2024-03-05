@@ -14,27 +14,24 @@ document.addEventListener("keydown", async function (e) {
     setValueToStorage("sidebarOpen", !value);
   } else if (e.ctrlKey && e.key === "t") {
     loadingScreen?.showModal();
-    sendBackgroundRequest(Message.GET_REQUEST, {
+    sendBackgroundRequest(Message.REQUEST, {
       translate: true,
       simplify: false,
       language: await getValueFromStorage("language"),
-      text: document.body.innerText,
     });
   } else if (e.ctrlKey && e.key === "s") {
     loadingScreen?.showModal();
-    sendBackgroundRequest(Message.GET_REQUEST, {
+    sendBackgroundRequest(Message.REQUEST, {
       translate: false,
       simplify: true,
       language: await getValueFromStorage("language"),
-      text: document.body.innerText,
     });
   } else if (e.ctrlKey && e.key === "g") {
     loadingScreen?.showModal();
-    sendBackgroundRequest(Message.GET_REQUEST, {
+    sendBackgroundRequest(Message.REQUEST, {
       translate: await getValueFromStorage("translate"),
       simplify: await getValueFromStorage("simplify"),
       language: await getValueFromStorage("language"),
-      text: document.body.innerText,
     });
   }
 });

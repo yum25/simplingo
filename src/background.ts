@@ -27,6 +27,7 @@ const handleMessage = async (type:Message, data:MessageData) => {
       });
       break;
     default:
+      sendBackgroundResponse(type, data);
       break;
   }
   
