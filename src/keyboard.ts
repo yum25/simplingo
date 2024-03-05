@@ -2,11 +2,6 @@ import { sendResponse as sendBackgroundRequest } from "./messaging";
 import { getValueFromStorage, setValueToStorage } from "./storage";
 import { Message } from "./types";
 
-// TODO: right now the sendRequest function does not work. Instead,
-// for two content scripts to pass messages to each other, we need 
-// to send a message to the background, then have it forwarded to the other 
-// content script.
-
 document.addEventListener("keydown", async function (e) {
   const loadingScreen = <HTMLDialogElement> document.getElementById('loading-screen');
   if (e.ctrlKey && e.key === "a") {
