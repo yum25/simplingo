@@ -1,3 +1,4 @@
+import time
 import google.generativeai as genai
 from flask import current_app
 
@@ -41,7 +42,14 @@ class Bard():
         """Perform simple simplification query."""
 
         prompt = "Paraphase this text simply: "
-        return self.model.generate_content(prompt + text)
+
+        # TODO: actually make this sane
+        try:
+            response = self.model.generate_content(prompt + text)
+        except:
+            time.sleep(5)
+            response = self.model.generate_content(prompt + text)
+        return response
 
     def translate(self, text, target, simplify):
         """Perform simple translation query."""
@@ -51,7 +59,15 @@ class Bard():
             print("Translating...\n")
 
         prompt = "Translate this text into a simple paraphrase in " + target + ": " if simplify else "Translate this text into " + target + ": "
-        return self.model.generate_content(prompt + text)
+        
+         # TODO: actually make this sane
+        try:
+            response = self.model.generate_content(prompt + text)
+        except:
+            time.sleep(5)
+            response = self.model.generate_content(prompt + text)
+        return response
+
 
     def query(self, text, **kwargs):
         """Perform query."""
