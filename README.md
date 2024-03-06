@@ -43,3 +43,5 @@ app
 └── static/...
 ```
 and credentials.py should contain ```OPENAI_KEY = '[key]'``` and ```GEN_AI_KEY = '[key]'```, replacing ```[key]``` with the appropriate key. (You can leave them empty if you're not using them.)
+
+Additional note, we have found that occasionally the API is occasionally unresponsive at first when starting up, and it helps to prompt it with a very short request (such as the test HTTP request specified above). We are still investigating why this occurs, as it occurs infrequently and is a difficult error to replicate and thus diagnose. Similarly, we have seen that the API occasionally generates internal errors that have nothing to do with our code and may be tied to rate limits or internal model errors; we have been unable to find an input or scenario that consistently replicates this error either, so it is similarly difficult to replicate and diagnose. In the case that it occurs, we have found that simply waiting for a time before trying again seems to help. However, as we have only managed to incur this error once, we're as of yet unsure of the best way to deal with this. 
