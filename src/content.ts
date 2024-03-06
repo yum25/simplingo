@@ -9,7 +9,7 @@ const verifyText = (node, text:string) => {
 }
 
 const addDocumentText = (el:HTMLElement, documentText:Array<Element>) => {
-    const text:string = el.innerHTML ?? "";
+    const text:string = el.textContent ?? "";
     if (verifyText(el, text)) {
         documentText.push(el);
     }

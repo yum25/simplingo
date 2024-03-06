@@ -66,7 +66,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const simplify:boolean = simplifyToggle.checked;
     const language:string = languageDropdown.value;
 
-    sendRequest(Message.REQUEST, { translate, simplify, language });
+    if (translate || simplify) {
+      sendRequest(Message.REQUEST, { translate, simplify, language });
+    } else {
+      alert("Please toggle on translate, simplify or both")
+    }
+
+    
   })
 
   closeButton.addEventListener('click', async function() {
