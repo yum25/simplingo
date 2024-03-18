@@ -1,5 +1,6 @@
 import time
 import google.generativeai as genai
+from app.settings import print_colors as pc
 
 # # if response fails, check
 # response.prompt_feedback
@@ -9,7 +10,7 @@ import google.generativeai as genai
 
 class Bard():
     def __init__(self, key):
-        print('Loading model...')
+        print(f'{pc.FYEL}Loading model...{pc.ENDC}')
         apikey = key
         safety_settings = [
             {
@@ -39,7 +40,7 @@ class Bard():
 
     def summary(self, text, simplify):
         """Perform simple simplification query."""
-
+        print(f'{pc.BBLU}Simplifying...{pc.ENDC}\n')
         prompt = "Paraphase this text simply: "
 
         # TODO: actually make this sane
@@ -53,9 +54,9 @@ class Bard():
     def translate(self, text, target, simplify):
         """Perform simple translation query."""
         if simplify:
-            print("Translating and simplifying...\n")
+            print(f'{pc.BBLU}Translating and simplifying...{pc.ENDC}\n')
         else:
-            print("Translating...\n")
+            print(f'{pc.BBLU}Translating...{pc.ENDC}\n')
 
         prompt = "Translate this text into a simple paraphrase in " + target + ": " if simplify else "Translate this text into " + target + ": "
         
@@ -70,7 +71,7 @@ class Bard():
 
     def query(self, text, **kwargs):
         """Perform query."""
-        print("Performing Bard query...")
+        print(f'{pc.FBLU}Performing Bard query...{pc.ENDC}')
 
         if kwargs["translate"]:
             response = self.translate(text=text, target=kwargs["target"], simplify=kwargs["simplify"])
@@ -83,8 +84,6 @@ class Bard():
                 return None, "Query output blocked by model"
             
         elif kwargs["simplify"]:
-            print("Simplifying...\n")
-
             # TODO: enable for tiered simplification
             # if kwargs["simplify"] == 0:
             #     return text, None
@@ -97,6 +96,6 @@ class Bard():
             except:
                 return None, "Query output blocked by model"
         else:
-            print("No args specified")
+            print(f'{pc.BRED}No args specified{pc.ENDC}')
             return text, "Note: no translate or simplify args specified\n"
 

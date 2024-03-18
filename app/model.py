@@ -29,5 +29,5 @@ def init_model():
         case "gemini":
             return Bard(GEN_AI_KEY)
         case default:
-            print("Error: unrecognized model")
+            print("Error: unrecognized model in init")
             return None

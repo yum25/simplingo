@@ -1,8 +1,10 @@
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
+from app.settings import print_colors as pc
+
 
 class GPT2():
     def __init__(self):
-        print("Loading model...")
+        print(f"{pc.FYEL} Loading model...{pc.ENDC}")
         self.tokenizer = GPT2Tokenizer.from_pretrained('gpt2-large')
         self.model = GPT2LMHeadModel.from_pretrained('gpt2-large')
         self.model.eval()

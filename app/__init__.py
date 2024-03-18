@@ -2,6 +2,7 @@ from flask import Flask
 import flask
 
 from config import Config
+from app.settings import print_colors as pc
 import app.model as md
 
 
@@ -9,13 +10,12 @@ def create_app():
     """Create app."""
     # Initialize app
     app = Flask(__name__)
-    # TODO: deal with config
     app.config.from_object(Config)
 
     with app.app_context():
         md.model = md.init_model()
     if md.model is None:
-        print("Error: no model initialized")
+        print(f"{pc.BRED} Error: no model initialized {pc.ENDC}")
 
     from app import models
     from app.requests import bp, get_text

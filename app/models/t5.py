@@ -1,11 +1,10 @@
 # pip install accelerate
 from transformers import T5Tokenizer, T5ForConditionalGeneration
-
-
+from app.settings import print_colors as pc
 
 class T5():
     def __init__(self):
-        print("Loading model...")
+        print(f"{pc.FYEL} Loading model...{pc.ENDC}")
         self.tokenizer = T5Tokenizer.from_pretrained("google/flan-t5-large")
         self.model = T5ForConditionalGeneration.from_pretrained("google/flan-t5-large", device_map="auto")
         self.model.eval()

@@ -1,8 +1,8 @@
 import flask
 from flask import Flask, Blueprint, current_app
 
-import app.models
 from app.model import model
+from app.settings import print_colors as pc
 
 bp = Blueprint('requests', __name__)
 
@@ -23,6 +23,7 @@ def get_text():
         lang = flask.request.args.get('target_lang', default="xx", type=str)
         target = current_app.config["APP_LANGS"].get(lang, None)
         if target is None:
+            print(f"{pc.BRED} Error: target language {lang} unrecogniced\n{pc.ENDC}")
             response = {
                 "text": None, 
                 "error": f"Target language {lang} for translate not supported by {current_app.config['B_MODEL']} model"
