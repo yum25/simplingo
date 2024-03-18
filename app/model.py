@@ -1,3 +1,6 @@
+import flask
+from flask import Flask, Blueprint, current_app
+
 from app.models.gpt2 import *
 from app.models.gpt3_5 import *
 from app.models.llama import *
@@ -6,24 +9,25 @@ from app.models.t5 import *
 from app.models.gemini import *
 from app.credentials import *
 
-gpt2 = False
-gpt3 = False
-gpt35 = False
-llama = False
-t5 = False
-gemini = True
+model_bp = Blueprint('model_init', __name__)
 
-if gpt2:
-    model = GPT2()
-elif gpt35:
-    pass
-elif llama:
-    pass
-elif gpt3:
-    pass
-elif t5:
-    model = T5()
-elif gemini:
-    model = Bard(GEN_AI_KEY)
-else:
-    print("Error: unrecognized model")
+model = None
+
+def init_model():
+
+    match current_app.config["B_MODEL"]:
+        case "gpt2":
+            return GPT2()
+        case "gpt35":
+            return None
+        case "llama":
+            return None
+        case "gpt3":
+            return None
+        case "t5":
+            return T5()
+        case "gemini":
+            return Bard(GEN_AI_KEY)
+        case default:
+            print("Error: unrecognized model")
+            return None

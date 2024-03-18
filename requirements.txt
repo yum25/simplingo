@@ -1,3 +1,4 @@
+accelerate==0.27.2
 annotated-types==0.6.0
 anyio==4.2.0
 argon2-cffi==23.1.0
@@ -10,6 +11,7 @@ Babel==2.14.0
 beautifulsoup4==4.12.3
 bleach==6.1.0
 blinker==1.7.0
+cachetools==5.3.2
 certifi==2024.2.2
 cffi==1.16.0
 charset-normalizer==3.3.2
@@ -25,6 +27,13 @@ filelock==3.13.1
 Flask==3.0.2
 fqdn==1.5.1
 fsspec==2024.2.0
+google-ai-generativelanguage==0.4.0
+google-api-core==2.17.1
+google-auth==2.28.0
+google-generativeai==0.3.2
+googleapis-common-protos==1.62.0
+grpcio==1.60.1
+grpcio-status==1.60.1
 h11==0.14.0
 httpcore==1.0.2
 httpx==0.26.0
@@ -86,9 +95,13 @@ pexpect==4.9.0
 platformdirs==4.2.0
 prometheus-client==0.19.0
 prompt-toolkit==3.0.43
+proto-plus==1.23.0
+protobuf==4.25.3
 psutil==5.9.8
 ptyprocess==0.7.0
 pure-eval==0.2.2
+pyasn1==0.5.1
+pyasn1-modules==0.3.0
 pycparser==2.21
 pydantic==2.6.1
 pydantic_core==2.16.2
@@ -105,6 +118,7 @@ requests==2.31.0
 rfc3339-validator==0.1.4
 rfc3986-validator==0.1.1
 rpds-py==0.17.1
+rsa==4.9
 safetensors==0.4.2
 Send2Trash==1.8.2
 sentencepiece==0.1.99
