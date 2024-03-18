@@ -1,6 +1,5 @@
 import time
 import google.generativeai as genai
-from flask import current_app
 
 # # if response fails, check
 # response.prompt_feedback
@@ -72,13 +71,6 @@ class Bard():
     def query(self, text, **kwargs):
         """Perform query."""
         print("Performing Bard query...")
-
-        # if kwargs["translate"] and kwargs["simplify"]: # is not None and kwargs["simplify"] > 0:
-        #     print("Translating and simplifying...\n")
-        #     return None, None
-        
-        # elif kwargs["translate"]:
-            # print("Translating...\n")
 
         if kwargs["translate"]:
             response = self.translate(text=text, target=kwargs["target"], simplify=kwargs["simplify"])
