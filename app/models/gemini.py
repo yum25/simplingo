@@ -81,10 +81,6 @@ class Bard():
             # print("Translating...\n")
 
         if kwargs["translate"]:
-            if kwargs["target"] == "xx":
-                print("Unrecognized language for translation\n")
-                return None, "Unrecognized language for translation"
-
             response = self.translate(text=text, target=kwargs["target"], simplify=kwargs["simplify"])
             try:
                 response = response.text

@@ -14,7 +14,7 @@ model_bp = Blueprint('model_init', __name__)
 model = None
 
 def init_model():
-
+    """Initializes model based on config variables."""
     match current_app.config["B_MODEL"]:
         case "gpt2":
             return GPT2()
