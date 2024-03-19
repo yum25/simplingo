@@ -77,7 +77,7 @@ class Bard():
             response = self.translate(text=text, target=kwargs["target"], simplify=kwargs["simplify"])
             try:
                 response = response.text
-                print(response)
+                print(f"{pc.FCYN}Response: {response}{pc.ENDC}")
 
                 return response, None
             except:
@@ -90,7 +90,7 @@ class Bard():
             response = self.summary(text=text, simplify=kwargs["simplify"])
             try:
                 response = response.text
-                print(response)
+                print(f"{pc.FCYN}Response: {response}{pc.ENDC}")
 
                 return response, None
             except:
