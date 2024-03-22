@@ -4,6 +4,7 @@ export enum Message {
   GET_REQUEST,
   GET_RESPONSE,
   OPEN_DIALOG,
+  REVERT,
 }
 
 export interface MessageData {

@@ -1,5 +1,5 @@
-import { sendRequest, addMessageListener } from "./messaging";
-import { Message, MessageData } from "./types";
+import { sendRequest } from "./messaging";
+import { Message } from "./types";
 import {
   getValueFromStorage,
   setValueToStorage,
@@ -72,10 +72,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const simplify: boolean = simplifyToggle.checked;
     const language: string = languageDropdown.value;
 
-    if (translate || simplify) {
+    if ((translate && language !== "xx") || (!translate && simplify)) {
       sendRequest(Message.REQUEST, { translate, simplify, language });
     } else {
-      alert("Please toggle on translate, simplify or both");
+      alert(
+        "Please toggle on translate with a valid language, simplify or both"
+      );
     }
   });
 
@@ -90,5 +92,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   editKeybindButton.addEventListener("click", function () {
     sendRequest(Message.OPEN_DIALOG, {});
+  });
+
+  const revertButton = <HTMLButtonElement>document.getElementById("revert");
+
+  revertButton.addEventListener("click", function () {
+    sendRequest(Message.REVERT, {});
   });
 });

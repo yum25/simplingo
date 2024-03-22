@@ -203,6 +203,14 @@ select {
   display: none;
 }
 
+#revert {
+  background: transparent;
+  color: var(--text-color-theme);
+  border: none;
+
+  text-decoration: underline;
+}
+
 @keyframes ring {
   0% {
     width: 30px;

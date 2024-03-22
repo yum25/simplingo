@@ -1,8 +1,6 @@
 import {
   sendResponse as sendBackgroundRequest,
   addMessageListener,
-  sendRequest,
-  sendMessage,
 } from "./messaging";
 import { Message, MessageData } from "./types";
 
@@ -62,7 +60,14 @@ const replaceDOMText = (newText: string, el: Element) => {
   }
 };
 
+const originalText: Array<string> = getDOMText().map(
+  (p: Element) => p.textContent as string
+);
+let modifiedText: Array<string> = getDOMText().map(
+  (p: Element) => p.textContent as string
+);
 let text: Array<Element> = getDOMText();
+
 const handleRequest = (type: Message, data: MessageData) => {
   const loadingScreen = <HTMLDialogElement>(
     document.getElementById("loading-screen")
@@ -81,8 +86,27 @@ const handleRequest = (type: Message, data: MessageData) => {
       break;
     case Message.GET_RESPONSE:
       loadingScreen?.close();
-      if (data.text) replaceDOMText(data.text, text[data.index as number]);
+      if (data.text) {
+        replaceDOMText(data.text, text[data.index as number]);
+        modifiedText[data.index as number] = data.text;
+      }
       if (data.error) console.error(`Error: ${JSON.stringify(data.error)}`);
+      break;
+    case Message.REVERT:
+      if (
+        originalText.toString() !==
+        getDOMText()
+          .map((p: Element) => p.textContent as string)
+          .toString()
+      ) {
+        text.forEach((p: Element, i) => {
+          replaceDOMText(originalText[i], p);
+        });
+      } else {
+        text.forEach((p: Element, i) => {
+          replaceDOMText(modifiedText[i], p);
+        });
+      }
       break;
     default:
       break;
