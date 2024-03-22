@@ -3,7 +3,9 @@ import { getValueFromStorage, setValueToStorage } from "./storage";
 import { Message } from "./types";
 
 document.addEventListener("keydown", async function (e) {
-  const loadingScreen = <HTMLDialogElement> document.getElementById('loading-screen');
+  const loadingScreen = <HTMLDialogElement>(
+    document.getElementById("loading-screen")
+  );
   if (e.ctrlKey && e.key === "a") {
     const value = await getValueFromStorage("sidebarOpen");
     setValueToStorage("sidebarOpen", !value);

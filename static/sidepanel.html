@@ -1,115 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Translate and Simplify</title>
-  <link rel="stylesheet" href="sidepanel.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body>
-<div id="side-panel" style="display: flex; flex-direction: column; justify-content: space-around; height: 100%;">
-  <span>
-    <h1>SimpLingo</h1>
-    <nav>
-      <button id="close">⨉</button>
-    </nav>
-  </span>
-  <br>
-  <section id="switch-options" style="display: flex; justify-content: space-around;">
-    <div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Translate and Simplify</title>
+    <link rel="stylesheet" href="sidepanel.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div
+      id="side-panel"
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        height: 100%;
+      "
+    >
       <span>
-        <h3>Translate</h3>
-        <label class="switch">
-          <input id="translate" type="checkbox">
-          <span class="slider round"></span>
-        </label>
+        <h1>SimpLingo</h1>
+        <nav>
+          <button id="close">⨉</button>
+        </nav>
       </span>
-    </div>
-    <div>
-      <span>
-        <h3> Simplify </h3>
-        <label class="switch">
-          <input id="simplify" type="checkbox">
-          <span class="slider round"></span>
-        </label>
-      </span>
-    </div>
-  </section>
-  <br>
-  <section id="select-options" style="display: flex; flex-direction: column; align-items: center; font-size: 15px;">
-    <select id="chooseLang">
-      <option value="xx">Set preferred language:</option>
+      <br />
+      <section
+        id="switch-options"
+        style="display: flex; justify-content: space-around"
+      >
+        <div>
+          <span>
+            <h3>Translate</h3>
+            <label class="switch">
+              <input id="translate" type="checkbox" />
+              <span class="slider round"></span>
+            </label>
+          </span>
+        </div>
+        <div>
+          <span>
+            <h3>Simplify</h3>
+            <label class="switch">
+              <input id="simplify" type="checkbox" />
+              <span class="slider round"></span>
+            </label>
+          </span>
+        </div>
+      </section>
+      <br />
+      <section
+        id="select-options"
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          font-size: 15px;
+        "
+      >
+        <select id="chooseLang">
+          <option value="xx">Set preferred language:</option>
 
-      <!-- Change languages between these comments to be written in their own language -->
-      <option value="ar">العربية</option>      <!--Arabic-->
-      <option value="bn">বাংলা</option>          <!--Bengali-->
-      <option value="bg">Български</option>     <!--Bulgarian-->
-      <option value="zh">中文（简体）</option>
-      <option value="zh-tw">中文（繁體）</option>
-      <option value="hr">Hrvatski</option>      <!--Croatian-->
-      <option value="cs">Čeština</option>       <!--Czech-->
-      <option value="da">Dansk</option>         <!--Danish-->
-      <option value="nl">Nederlands</option>    <!--Dutch-->
-      <option value="en">English</option>
-      <option value="et">Eesti</option>         <!--Estonian-->
-      <option value="fi">Suomi</option>         <!--Finnish-->
-      <option value="fr">Français</option>
-      <option value="de">Deutsch</option>
-      <option value="el">Ελληνικά</option>
-      <option value="iw">עברית</option>
-      <option value="hi">हिन्दी</option>
-      <option value="hu">Magyar</option>      <!--Hungarian-->
-      <option value="id">Bahasa Indonesia</option>
-      <option value="it">Italiano</option>
-      <option value="ja">日本語</option>
-      <option value="ko">한국어</option>
-      <option value="lv">Latviešu</option>    <!--Latvian-->
-      <option value="lt">Lietuvių</option>    <!--Lithuanian-->
-      <option value="no">Norsk</option>       <!--Norwegian-->
-      <option value="pl">Polski</option>
-      <option value="pt">Português</option>
-      <option value="ro">Română</option>      <!--Romanian-->
-      <option value="ru">Русский</option>
-      <option value="sr">Српски</option>      <!--Serbian-->
-      <option value="sk">Slovenčina</option>  <!--Slovak-->
-      <option value="sl">Slovenščina</option> <!--Slovenian-->
-      <option value="es">Español</option>
-      <option value="sw">Kiswahili</option>
-      <option value="sv">Svenska</option>     <!--Swedish-->
-      <option value="th">ไทย</option>
-      <option value="tr">Türkçe</option>      <!--Turkish-->
-      <option value="uk">Українська</option>
-      <option value="vi">Tiếng Việt</option>
-      
-      <!-- add other langs -->
-    </select>
-  </section>
-<br>
-<button id="activate">GO!</button>
-<br>
-<section id="keybind-options">
-  <div style="display: flex; align-items: center; justify-content: space-between;">
-    <h3>Keyboard Shortcuts</h3>
-    <button id="edit-keybinds">Edit</button>
-  </div>
-  <ul>
-    <li>
-      Toggle sidepanel: <span>Ctrl</span> + <span>A</span>
-    </li>
-    <li>
-      Translate page: <span>Ctrl</span> + <span>T</span>
-    </li>
-    <li>
-      Simplify page: <span>Ctrl</span> + <span>S</span>
-    </li>
-    <li>
-      Activate Go button: <span>Ctrl</span> + <span>G</span>
-    </li>
-  </ul>
-</section>
-<p id="outputText"></p>
-</div>
-<script src="sidepanel.js"></script>
-</body>
+          <!-- Change languages between these comments to be written in their own language -->
+          <option value="ar">العربية</option>
+          <!--Arabic-->
+          <option value="bn">বাংলা</option>
+          <!--Bengali-->
+          <option value="bg">Български</option>
+          <!--Bulgarian-->
+          <option value="zh">中文（简体）</option>
+          <option value="zh-tw">中文（繁體）</option>
+          <option value="hr">Hrvatski</option>
+          <!--Croatian-->
+          <option value="cs">Čeština</option>
+          <!--Czech-->
+          <option value="da">Dansk</option>
+          <!--Danish-->
+          <option value="nl">Nederlands</option>
+          <!--Dutch-->
+          <option value="en">English</option>
+          <option value="et">Eesti</option>
+          <!--Estonian-->
+          <option value="fi">Suomi</option>
+          <!--Finnish-->
+          <option value="fr">Français</option>
+          <option value="de">Deutsch</option>
+          <option value="el">Ελληνικά</option>
+          <option value="iw">עברית</option>
+          <option value="hi">हिन्दी</option>
+          <option value="hu">Magyar</option>
+          <!--Hungarian-->
+          <option value="id">Bahasa Indonesia</option>
+          <option value="it">Italiano</option>
+          <option value="ja">日本語</option>
+          <option value="ko">한국어</option>
+          <option value="lv">Latviešu</option>
+          <!--Latvian-->
+          <option value="lt">Lietuvių</option>
+          <!--Lithuanian-->
+          <option value="no">Norsk</option>
+          <!--Norwegian-->
+          <option value="pl">Polski</option>
+          <option value="pt">Português</option>
+          <option value="ro">Română</option>
+          <!--Romanian-->
+          <option value="ru">Русский</option>
+          <option value="sr">Српски</option>
+          <!--Serbian-->
+          <option value="sk">Slovenčina</option>
+          <!--Slovak-->
+          <option value="sl">Slovenščina</option>
+          <!--Slovenian-->
+          <option value="es">Español</option>
+          <option value="sw">Kiswahili</option>
+          <option value="sv">Svenska</option>
+          <!--Swedish-->
+          <option value="th">ไทย</option>
+          <option value="tr">Türkçe</option>
+          <!--Turkish-->
+          <option value="uk">Українська</option>
+          <option value="vi">Tiếng Việt</option>
+
+          <!-- add other langs -->
+        </select>
+      </section>
+      <br />
+      <button id="activate">GO!</button>
+      <br />
+      <section id="keybind-options">
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          "
+        >
+          <h3>Keyboard Shortcuts</h3>
+          <button id="edit-keybinds">Edit</button>
+        </div>
+        <ul>
+          <li>Toggle sidepanel: <span>Ctrl</span> + <span>A</span></li>
+          <li>Translate page: <span>Ctrl</span> + <span>T</span></li>
+          <li>Simplify page: <span>Ctrl</span> + <span>S</span></li>
+          <li>Activate Go button: <span>Ctrl</span> + <span>G</span></li>
+        </ul>
+      </section>
+      <p id="outputText"></p>
+    </div>
+    <script src="sidepanel.js"></script>
+  </body>
 </html>

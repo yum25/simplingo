@@ -6,14 +6,14 @@ An AI browser extension that helps you understand technical documents and transl
 
 ## Install and Build
 
-**Important Note:** running the ```install.sh``` and ```run.sh``` scripts in ```bin/``` will take care of installing necessary packages and running the application; however, you will still have to complete step 2 of frontend installation described below manually in your browser (you can ignore all other steps).
+**Important Note:** You can ignore the below steps and run the following: First, run the ```install.sh``` script that's in the ```bin/``` folder. Next,  configure the credentials file, inside the ```app/``` folder and enter the credentials by setting ```OPENAI_KEY = '[key]'``` and/ or ```GEN_AI_KEY = '[key]'``` as appropriate, replacing ```[key]``` with the key. Next, run the ```run.sh``` script from the ```bin/``` folder. This will get your application running and create a ```/dist``` directory. Finally, go to [chrome://extensions](chrome://extensions) and press ```Load unpacked```, and select the recently built ```/dist``` directory. All of your changes to the source content will be reflected in real time in this build. To see new changes, reload the extension. 
 
 ### Frontend
 1. Run ```npm install```. To initialize a dev environment, run ```npm run build``` to create a ```/dist``` directory. 
 
 2. Go to [chrome://extensions](chrome://extensions) and press ```Load unpacked```, and select the recently built ```/dist``` directory. All of your changes to the source content will be reflected in real time in this build. To see new changes, reload the extension.
 
-3. To start a development server with hot reload, run ```npm run dev```. This is preferable to building and running on chrome itself, since we do not have to reload the page and any changes will be automatically reflected on the page. 
+3. To start a development environment with both the bundled browser extension and the backend flask api, run ```npm run dev```. 
 
 ### Backend
 1. Run the following commands to create a Python environment and install necessary packages:

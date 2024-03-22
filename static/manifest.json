@@ -5,18 +5,18 @@
   "description": "A browser extension for translating and simplifying text.",
   "permissions": ["activeTab", "storage"],
   "action": {},
-  "content_scripts":[
+  "content_scripts": [
     {
-     "matches":["<all_urls>"],
-     "js":["content.js"]
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
     },
     {
-      "matches":["<all_urls>"],
-     "js":["inject.js"]
+      "matches": ["<all_urls>"],
+      "js": ["inject.js"]
     },
     {
-      "matches":["<all_urls>"],
-     "js":["keyboard.js"]
+      "matches": ["<all_urls>"],
+      "js": ["keyboard.js"]
     }
   ],
   "background": {
