@@ -3,4 +3,5 @@
 set -Eeuo pipefail
 set -x
 
-npm run build & python app.py
+source env/bin/activate
+npm run build & python3 app.py
