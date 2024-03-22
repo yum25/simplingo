@@ -2,5 +2,4 @@ dist
 node_modules
 env/*
 app/credentials.py
-config.py
 *__pycache__*
