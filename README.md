@@ -6,7 +6,7 @@ An AI browser extension that helps you understand technical documents and transl
 
 ## Install and Build
 
-**Important Note:** running the ```install.sh``` and ```run.sh``` scripts in ```bin/``` will take care of installing necessary packages and running the application; however, you will still have to complete step 2 of frontend installation described below manually in your browser and put the GENAI API Key in your credentials file (you can ignore all other steps).
+**Important Note:** running the ```install.sh``` and ```run.sh``` scripts in ```bin/``` will take care of installing necessary packages and running the application; however, you will still have to complete step 2 of frontend installation described below manually in your browser and put the GENAI API Key in your credentials file (step 2 of the backend installation). You can ignore all other steps.
 
 ### Frontend
 1. Run ```npm install```. To initialize a dev environment, run ```npm run build``` to create a ```/dist``` directory. 
