@@ -6,7 +6,7 @@ An AI browser extension that helps you understand technical documents and transl
 
 ## Install and Build
 
-**Important Note:** You can ignore the below steps and run the following: First, run the ```install.sh``` script. Then, go to [chrome://extensions](chrome://extensions) and press ```Load unpacked```, and select the recently built ```/dist``` directory. All of your changes to the source content will be reflected in real time in this build. To see new changes, reload the extension. Next,  configure the credentials file, inside the ```app/``` folder and enter the credentials by setting ```OPENAI_KEY = '[key]'``` and/ or ```GEN_AI_KEY = '[key]'``` as appropriate, replacing ```[key]``` with the key. Lastly, run the ```run.sh``` script. This will get your application running.
+**Important Note:** You can ignore the below steps and run the following: First, run the ```install.sh``` script that's in the ```bin/``` folder. Then, go to [chrome://extensions](chrome://extensions) and press ```Load unpacked```, and select the recently built ```/dist``` directory. All of your changes to the source content will be reflected in real time in this build. To see new changes, reload the extension. Next,  configure the credentials file, inside the ```app/``` folder and enter the credentials by setting ```OPENAI_KEY = '[key]'``` and/ or ```GEN_AI_KEY = '[key]'``` as appropriate, replacing ```[key]``` with the key. Lastly, run the ```run.sh``` script from the ```bin/``` folder. This will get your application running.
 
 ### Frontend
 1. Run ```npm install```. To initialize a dev environment, run ```npm run build``` to create a ```/dist``` directory. 
