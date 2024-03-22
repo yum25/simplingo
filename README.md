@@ -6,7 +6,7 @@ An AI browser extension that helps you understand technical documents and transl
 
 ## Install and Build
 
-**Important Note:** running the ```install.sh``` and ```run.sh``` scripts in ```bin/``` will take care of installing necessary packages and running the application; however, you will still have to complete step 2 of frontend installation described below manually in your browser and put the GENAI API Key in your credentials file (step 2 of the backend installation). You can ignore all other steps.
+**Important Note:** You can ignore the below steps and run the following: First, run the ```install.sh``` script. Then, go to [chrome://extensions](chrome://extensions) and press ```Load unpacked```, and select the recently built ```/dist``` directory. All of your changes to the source content will be reflected in real time in this build. To see new changes, reload the extension. Next,  configure the credentials file, inside the ```app/``` folder and enter the credentials by setting ```OPENAI_KEY = '[key]'``` and/ or ```GEN_AI_KEY = '[key]'``` as appropriate, replacing ```[key]``` with the key. Lastly, run the ```run.sh``` script. This will get your application running.
 
 ### Frontend
 1. Run ```npm install```. To initialize a dev environment, run ```npm run build``` to create a ```/dist``` directory. 
