@@ -13,7 +13,7 @@ An AI browser extension that helps you understand technical documents and transl
 
 2. Go to [chrome://extensions](chrome://extensions) and press ```Load unpacked```, and select the recently built ```/dist``` directory. All of your changes to the source content will be reflected in real time in this build. To see new changes, reload the extension.
 
-3. To start a development server with hot reload, run ```npm run dev```. This is preferable to building and running on chrome itself, since we do not have to reload the page and any changes will be automatically reflected on the page. 
+3. To start a development environment with both the bundled browser extension and the backend flask api, run ```npm run dev```. 
 
 ### Backend
 1. Run the following commands to create a Python environment and install necessary packages:

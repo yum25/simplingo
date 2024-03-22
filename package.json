@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "webpack serve",
+    "dev": "./bin/run.sh",
     "build": "webpack --config webpack.config.js"
   },
   "dependencies": {
