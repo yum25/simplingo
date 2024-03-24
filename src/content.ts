@@ -5,7 +5,7 @@ import {
 } from "./messaging";
 import { Message, MessageData } from "./types";
 
-const textElements = ["P"];
+const textElements = ["H1", "H2", "H3", "H4", "P"];
 
 const getDOMText = () => {
   const documentText = [];
@@ -69,7 +69,6 @@ class ContentScript {
   requests: Array<boolean> = [];
 
   initializeLanguageProcess = (text: Array<Element>, data: MessageData, tabID: number) => {
-    // send individual requests for each element
     text.forEach((el, index) => {
       sendBackgroundRequest(Message.BACKGROUND_REQUEST, {
         ...data,
@@ -79,16 +78,13 @@ class ContentScript {
       });
     });
 
-    // start tracking request status
     this.requests = text.map(() => false);
     sendResponse(Message.DISABLE, { requests: this.requests });
   };
 
   updateLanguageProcess = (text: Array<Element>, data: MessageData) => {
-    // update request at data.index as fulfilled
     this.requests[data.index as number] = true;
 
-    // modify DOM based on response and track modified DOM
     if (data.text) {
       replaceDOMText(data.text, text[data.index as number]);
       sendResponse(Message.UPDATE, { requests: this.requests });
@@ -117,8 +113,6 @@ class ContentScript {
         text.forEach((el: Element, i) => {
           replaceDOMText(textReplace[i], el);
         });
-        break;
-      default:
         break;
     }
   };
