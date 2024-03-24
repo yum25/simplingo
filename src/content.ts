@@ -1,6 +1,7 @@
 import {
   sendResponse as sendBackgroundRequest,
   addMessageListener,
+  sendResponse,
 } from "./messaging";
 import { Message, MessageData } from "./types";
 
@@ -67,6 +68,7 @@ let modifiedText: Array<string> = getDOMText().map(
   (p: Element) => p.textContent as string
 );
 let text: Array<Element> = getDOMText();
+let requests: Array<boolean> = [];
 
 const handleRequest = (type: Message, data: MessageData) => {
   const loadingScreen = <HTMLDialogElement>(
@@ -74,8 +76,9 @@ const handleRequest = (type: Message, data: MessageData) => {
   );
   switch (type) {
     case Message.REQUEST:
-      text = getDOMText();
       loadingScreen?.showModal();
+
+      text = getDOMText();
       text.forEach((p, index) => {
         sendBackgroundRequest(Message.GET_REQUEST, {
           ...data,
@@ -83,14 +86,25 @@ const handleRequest = (type: Message, data: MessageData) => {
           index,
         });
       });
+
+      requests = text.map(() => false);
+      sendResponse(Message.DISABLE, {});
+
       break;
     case Message.GET_RESPONSE:
       loadingScreen?.close();
+
       if (data.text) {
         replaceDOMText(data.text, text[data.index as number]);
         modifiedText[data.index as number] = data.text;
       }
       if (data.error) console.error(`Error: ${JSON.stringify(data.error)}`);
+
+      requests[data.index as number] = true;
+      if (requests.filter((p) => !p).length === 0) {
+        sendResponse(Message.ENABLE, {});
+      }
+
       break;
     case Message.REVERT:
       if (

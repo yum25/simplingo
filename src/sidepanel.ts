@@ -1,5 +1,5 @@
-import { sendRequest } from "./messaging";
-import { Message } from "./types";
+import { addMessageListener, sendRequest } from "./messaging";
+import { Message, MessageData } from "./types";
 import {
   getValueFromStorage,
   setValueToStorage,
@@ -7,6 +7,23 @@ import {
   setValuesToStorage,
   storageChangeListener,
 } from "./storage";
+
+const handleResponse = (type: Message, data: MessageData) => {
+  switch (type) {
+    case Message.DISABLE:
+      document.getElementById("side-panel")!.style.display = "none";
+      document.getElementById("disabled")!.style.display = "flex";
+      break;
+    case Message.ENABLE:
+      document.getElementById("disabled")!.style.display = "none";
+      document.getElementById("side-panel")!.style.display = "flex";
+      break;
+    default:
+      break;
+  }
+};
+
+addMessageListener(handleResponse);
 
 document.addEventListener("DOMContentLoaded", function () {
   const translateToggle = <HTMLInputElement>(

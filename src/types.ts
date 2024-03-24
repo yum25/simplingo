@@ -5,6 +5,8 @@ export enum Message {
   GET_RESPONSE,
   OPEN_DIALOG,
   REVERT,
+  DISABLE,
+  ENABLE,
 }
 
 export interface MessageData {
