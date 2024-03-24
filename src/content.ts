@@ -7,6 +7,18 @@ import { Message, MessageData } from "./types";
 
 const textElements = ["P"];
 
+const getDOMText = () => {
+  const documentText = [];
+  parseDocumentText(document.body, documentText, addDocumentText);
+  return documentText;
+};
+
+const replaceDOMText = (newText: string, el: Element) => {
+  if (el) {
+    el.textContent = newText;
+  }
+};
+
 const verifyText = (node, text: string) => {
   return (
     !/SCRIPT|STYLE/.test(node.parentNode.tagName) &&
@@ -43,18 +55,6 @@ const parseDocumentText = (
       case Node.DOCUMENT_NODE:
         parseDocumentText(node, documentText, handleDocumentText);
     }
-  }
-};
-
-const getDOMText = () => {
-  const documentText = [];
-  parseDocumentText(document.body, documentText, addDocumentText);
-  return documentText;
-};
-
-const replaceDOMText = (newText: string, el: Element) => {
-  if (el) {
-    el.textContent = newText;
   }
 };
 
