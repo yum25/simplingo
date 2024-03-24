@@ -7,7 +7,7 @@ export async function sendMessage(
   data: MessageData
 ) {
   try {
-    const response = await browser.tabs.sendMessage(tabID, { type, data });
+    const response = await browser.tabs.sendMessage(tabID, { type, data, tabID });
     return response;
   } catch (error) {
     console.error("Failed to send request: ", error);
@@ -15,7 +15,10 @@ export async function sendMessage(
   }
 }
 
-export function sendRequest(type: Message, data: MessageData) {
+export function sendRequest(type: Message, data: MessageData, tabID?: number) {
+  if (tabID) {
+    return sendMessage(tabID, type, data);
+  }
   browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
     tabs.forEach((tab: Tabs.Tab) => {
       if (tab.id) return sendMessage(tab.id, type, data);

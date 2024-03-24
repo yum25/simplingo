@@ -28,11 +28,11 @@ const handleMessage = async (type: Message, data: MessageData) => {
             text: query.text,
             index: data.index,
             error: query.error,
-          });
+          }, data.tabID);
         })
         .catch((error) => {
           console.log(error);
-          sendBackgroundResponse(Message.BACKGROUND_RESPONSE, { error });
+          sendBackgroundResponse(Message.BACKGROUND_RESPONSE, { error }, data.tabID);
         });
       break;
     default:

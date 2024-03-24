@@ -16,6 +16,6 @@ export interface MessageData {
   simplify?: boolean;
   language?: string;
   requests?: Array<boolean>;
-  tabid?: number;
+  tabID?: number;
   error?: Error;
 }

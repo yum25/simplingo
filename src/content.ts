@@ -68,13 +68,14 @@ class ContentScript {
 
   requests: Array<boolean> = [];
 
-  initializeLanguageProcess = (text: Array<Element>, data: MessageData) => {
+  initializeLanguageProcess = (text: Array<Element>, data: MessageData, tabID: number) => {
     // send individual requests for each element
     text.forEach((el, index) => {
       sendBackgroundRequest(Message.BACKGROUND_REQUEST, {
         ...data,
         text: el.textContent as string,
         index,
+        tabID,
       });
     });
 
@@ -97,11 +98,11 @@ class ContentScript {
     if (data.error) console.error(`Error: ${JSON.stringify(data.error)}`);
   };
 
-  handleRequest = (type: Message, data: MessageData) => {
+  handleRequest = (type: Message, data: MessageData, tabID) => {
     const text: Array<Element> = getDOMText();
     switch (type) {
       case Message.LANGUAGE_REQUEST:
-        this.initializeLanguageProcess(text, data);
+        this.initializeLanguageProcess(text, data, tabID);
         break;
       case Message.BACKGROUND_RESPONSE:
         this.updateLanguageProcess(text, data);
