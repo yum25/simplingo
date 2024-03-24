@@ -24,14 +24,14 @@ const addDocumentText = (el: HTMLElement, documentText: Array<Element>) => {
 
 // See https://stackoverflow.com/questions/5558613/replace-words-in-the-body-text
 const parseDocumentText = (
-  el,
+  el: Node,
   documentText: Array<Element>,
   handleDocumentText: Function
 ) => {
   for (let node of el.childNodes) {
     switch (node.nodeType) {
       case Node.ELEMENT_NODE:
-        if (textElements.includes(node.tagName)) {
+        if (textElements.includes((node as Element).tagName)) {
           handleDocumentText(node, documentText, handleDocumentText);
         } else {
           parseDocumentText(node, documentText, handleDocumentText);
@@ -46,8 +46,7 @@ const parseDocumentText = (
   }
 };
 
-// Two use cases of parseDocumentText: get original DOM texContent, and replace textContent
-export const getDOMText = () => {
+const getDOMText = () => {
   const documentText = [];
   parseDocumentText(document.body, documentText, addDocumentText);
   return documentText;
@@ -56,75 +55,73 @@ export const getDOMText = () => {
 const replaceDOMText = (newText: string, el: Element) => {
   if (el) {
     el.textContent = newText;
-  } else {
-    console.log(newText);
   }
 };
 
-const originalText: Array<string> = getDOMText().map(
-  (p: Element) => p.textContent as string
-);
-let modifiedText: Array<string> = getDOMText().map(
-  (p: Element) => p.textContent as string
-);
-let text: Array<Element> = getDOMText();
-let requests: Array<boolean> = [];
-
-const handleRequest = (type: Message, data: MessageData) => {
-  const loadingScreen = <HTMLDialogElement>(
-    document.getElementById("loading-screen")
+class ContentScript {
+  originalText: Array<string> = getDOMText().map(
+    (el: Element) => el.textContent as string
   );
-  switch (type) {
-    case Message.REQUEST:
-      loadingScreen?.showModal();
+  modifiedText: Array<string> = getDOMText().map(
+    (el: Element) => el.textContent as string
+  );
 
-      text = getDOMText();
-      text.forEach((p, index) => {
-        sendBackgroundRequest(Message.GET_REQUEST, {
-          ...data,
-          text: p.textContent as string,
-          index,
-        });
+  requests: Array<boolean> = [];
+
+  initializeLanguageProcess = (text: Array<Element>, data: MessageData) => {
+    // send individual requests for each element
+    text.forEach((el, index) => {
+      sendBackgroundRequest(Message.BACKGROUND_REQUEST, {
+        ...data,
+        text: el.textContent as string,
+        index,
       });
+    });
 
-      requests = text.map(() => false);
-      sendResponse(Message.DISABLE, {});
+    // start tracking request status
+    this.requests = text.map(() => false);
+    sendResponse(Message.DISABLE, { requests: this.requests });
+  };
 
-      break;
-    case Message.GET_RESPONSE:
-      loadingScreen?.close();
+  updateLanguageProcess = (text: Array<Element>, data: MessageData) => {
+    // update request at data.index as fulfilled
+    this.requests[data.index as number] = true;
 
-      if (data.text) {
-        replaceDOMText(data.text, text[data.index as number]);
-        modifiedText[data.index as number] = data.text;
-      }
-      if (data.error) console.error(`Error: ${JSON.stringify(data.error)}`);
+    // modify DOM based on response and track modified DOM
+    if (data.text) {
+      replaceDOMText(data.text, text[data.index as number]);
+      sendResponse(Message.UPDATE, { requests: this.requests });
 
-      requests[data.index as number] = true;
-      if (requests.filter((p) => !p).length === 0) {
-        sendResponse(Message.ENABLE, {});
-      }
+      this.modifiedText[data.index as number] = data.text;
+    }
+    if (data.error) console.error(`Error: ${JSON.stringify(data.error)}`);
+  };
 
-      break;
-    case Message.REVERT:
-      if (
-        originalText.toString() !==
-        getDOMText()
-          .map((p: Element) => p.textContent as string)
-          .toString()
-      ) {
-        text.forEach((p: Element, i) => {
-          replaceDOMText(originalText[i], p);
+  handleRequest = (type: Message, data: MessageData) => {
+    const text: Array<Element> = getDOMText();
+    switch (type) {
+      case Message.LANGUAGE_REQUEST:
+        this.initializeLanguageProcess(text, data);
+        break;
+      case Message.BACKGROUND_RESPONSE:
+        this.updateLanguageProcess(text, data);
+        break;
+      case Message.REVERT:
+        const currentDOM = getDOMText().map(
+          (el: Element) => el.textContent as string
+        );
+        const edited = this.originalText.toString() !== currentDOM.toString();
+        const textReplace = edited ? this.originalText : this.modifiedText;
+
+        text.forEach((el: Element, i) => {
+          replaceDOMText(textReplace[i], el);
         });
-      } else {
-        text.forEach((p: Element, i) => {
-          replaceDOMText(modifiedText[i], p);
-        });
-      }
-      break;
-    default:
-      break;
-  }
-};
+        break;
+      default:
+        break;
+    }
+  };
+}
 
-addMessageListener(handleRequest);
+const script = new ContentScript();
+addMessageListener(script.handleRequest);

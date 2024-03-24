@@ -1,12 +1,12 @@
 export enum Message {
-  REQUEST,
-  RESPONSE,
-  GET_REQUEST,
-  GET_RESPONSE,
+  LANGUAGE_REQUEST,
+  LANGUAGE_RESPONSE,
+  BACKGROUND_REQUEST,
+  BACKGROUND_RESPONSE,
   OPEN_DIALOG,
   REVERT,
   DISABLE,
-  ENABLE,
+  UPDATE,
 }
 
 export interface MessageData {
@@ -15,5 +15,7 @@ export interface MessageData {
   translate?: boolean;
   simplify?: boolean;
   language?: string;
+  requests?: Array<boolean>;
+  tabid?: number;
   error?: Error;
 }

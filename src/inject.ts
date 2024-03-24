@@ -16,7 +16,7 @@ function toggleSidebar(sidebarOpen: boolean) {
   }
 }
 
-var iframe = document.createElement("iframe");
+const iframe = document.createElement("iframe");
 iframe.id = "simplingo";
 iframe.style.background = "white";
 iframe.style.height = "100%";
@@ -28,7 +28,7 @@ iframe.style.border = "none";
 iframe.style.zIndex = "9000000000000000000";
 iframe.src = browser.runtime.getURL("sidepanel.html");
 
-var dialog = document.createElement("dialog");
+const dialog = document.createElement("dialog");
 dialog.id = "keybind-modal";
 dialog.innerHTML = `
 <ul>
@@ -47,16 +47,9 @@ dialog.innerHTML = `
   </ul>
 `;
 
-var loadingScreen = document.createElement("dialog");
-loadingScreen.id = "loading-screen";
-loadingScreen.style.textAlign = "center";
-loadingScreen.innerHTML =
-  "<p>Processing page...</p><p>Please wait around 15-20 seconds for results to appear</p>";
-
 document.body.style.paddingRight = "0px";
 document.body.appendChild(iframe);
 document.body.appendChild(dialog);
-document.body.appendChild(loadingScreen);
 
 toggleSidebar(await getValueFromStorage("sidebarOpen"));
 storageChangeListener(function (changes) {

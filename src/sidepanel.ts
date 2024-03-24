@@ -13,10 +13,20 @@ const handleResponse = (type: Message, data: MessageData) => {
     case Message.DISABLE:
       document.getElementById("side-panel")!.style.display = "none";
       document.getElementById("disabled")!.style.display = "flex";
+      document.getElementById(
+        "progress"
+      )!.textContent = `0/${data.requests?.length}`;
       break;
-    case Message.ENABLE:
-      document.getElementById("disabled")!.style.display = "none";
-      document.getElementById("side-panel")!.style.display = "flex";
+    case Message.UPDATE:
+      const responses = data.requests?.filter((request) => request);
+      document.getElementById(
+        "progress"
+      )!.textContent = `${responses?.length}/${data.requests?.length}`;
+
+      if (responses?.length === data.requests?.length) {
+        document.getElementById("disabled")!.style.display = "none";
+        document.getElementById("side-panel")!.style.display = "flex";
+      }
       break;
     default:
       break;
@@ -90,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const language: string = languageDropdown.value;
 
     if ((translate && language !== "xx") || (!translate && simplify)) {
-      sendRequest(Message.REQUEST, { translate, simplify, language });
+      sendRequest(Message.LANGUAGE_REQUEST, { translate, simplify, language });
     } else {
       alert(
         "Please toggle on translate with a valid language, simplify or both"
@@ -106,13 +116,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const editKeybindButton = <HTMLButtonElement>(
     document.getElementById("edit-keybinds")
   );
-
   editKeybindButton.addEventListener("click", function () {
     sendRequest(Message.OPEN_DIALOG, {});
   });
 
   const revertButton = <HTMLButtonElement>document.getElementById("revert");
-
   revertButton.addEventListener("click", function () {
     sendRequest(Message.REVERT, {});
   });

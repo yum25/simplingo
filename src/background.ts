@@ -13,7 +13,7 @@ browser.action.onClicked.addListener(async (tab: Tabs.Tab) => {
 
 const handleMessage = async (type: Message, data: MessageData) => {
   switch (type) {
-    case Message.GET_REQUEST:
+    case Message.BACKGROUND_REQUEST:
       fetch(
         `http://127.0.0.1:5000/get_text?translate=${data.translate}&simplify=${data.simplify}&text=${data.text}&target_lang=${data.language}`
       )
@@ -24,7 +24,7 @@ const handleMessage = async (type: Message, data: MessageData) => {
           return resp.json();
         })
         .then((query) => {
-          sendBackgroundResponse(Message.GET_RESPONSE, {
+          sendBackgroundResponse(Message.BACKGROUND_RESPONSE, {
             text: query.text,
             index: data.index,
             error: query.error,
@@ -32,7 +32,7 @@ const handleMessage = async (type: Message, data: MessageData) => {
         })
         .catch((error) => {
           console.log(error);
-          sendBackgroundResponse(Message.GET_RESPONSE, { error });
+          sendBackgroundResponse(Message.BACKGROUND_RESPONSE, { error });
         });
       break;
     default:
