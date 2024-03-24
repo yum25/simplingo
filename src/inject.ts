@@ -4,7 +4,7 @@
 import browser from "webextension-polyfill";
 import { getValueFromStorage, storageChangeListener } from "./storage";
 import { addMessageListener } from "./messaging";
-import { Message, MessageData } from "./types";
+import { Message } from "./types";
 
 function initializeSidebar() {
   const iframe = document.createElement("iframe");
