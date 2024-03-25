@@ -225,6 +225,7 @@ select {
   color: var(--text-color-theme);
   border: none;
 
+  font-size: 16px;
   text-decoration: underline;
 }
 
@@ -251,27 +252,6 @@ select {
   box-shadow: 0rem 0rem 0rem green;
 }
 */
-
-ul {
-  display: grid;
-  list-style: none;
-
-  margin: 0;
-  padding: 1rem;
-  border: 1px solid var(--text-color-theme);
-
-  gap: 15px;
-}
-
-li > span {
-  color: black;
-  background: rgb(216, 216, 216);
-
-  padding: 3px;
-
-  border: 1px solid var(--text-color-theme);
-  border-radius: 0.25rem;
-}
 
 @media (prefers-color-scheme: dark) {
   :root {
