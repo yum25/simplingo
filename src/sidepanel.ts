@@ -113,6 +113,31 @@ document.addEventListener("DOMContentLoaded", function () {
     setValueToStorage("sidebarOpen", !value);
   });
 
+  const smile = <HTMLButtonElement>(
+    document.getElementById("smileButton")
+  );
+
+  const sad = <HTMLButtonElement>(
+    document.getElementById("sadButton")
+  );
+
+  const regenerate = <HTMLButtonElement>(
+    document.getElementById("regenerateButton")
+  );
+
+  smile.addEventListener("click", function () {
+    alert('Thanks for the positive feedback! :)');
+  });
+
+  sad.addEventListener("click", function () {
+    alert('Sorry for the negative experience :(');
+  });
+
+  regenerate.addEventListener("click", function () {
+    //regenerate 
+    alert('Query regenerated!');
+  });
+  
   const editKeybindButton = <HTMLButtonElement>(
     document.getElementById("edit-keybinds")
   );
