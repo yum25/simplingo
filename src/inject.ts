@@ -44,22 +44,47 @@ function initializeDialog() {
   const dialog = document.createElement("dialog");
   dialog.id = "keybind-modal";
   dialog.innerHTML = `
-  <ul>
-      <li>
-        Toggle sidepanel: <span>Option</span> + <span>A</span>
-      </li>
-      <li>
-        Translate page: <span>Option</span> + <span>T</span>
-      </li>
-      <li>
-        Simplify page: <span>Option</span> + <span>S</span>
-      </li>
-      <li>
-        Activate Go button: <span>Option</span> + <span>G</span>
-      </li>
+  <button id="close">X</button>
+  <div style="height: 5px;" aria-hidden="true"></div>
+    <ul id="keybinds">
+      <li>Toggle sidepanel: <span class="key">Ctrl</span> + <span class="key">Alt</span> + <span class="key">A</span></li>
+      <li>Translate page: <span class="key">Ctrl</span> + <span class="key">Alt</span> + <span class="key">T</span></li>
+      <li>Simplify page: <span class="key">Ctrl</span> + <span class="key">Alt</span> + <span class="key">S</span></li>
+      <li>Activate Go button: <span class="key">Ctrl</span> + <span class="key">Alt</span> + <span class="key">G</span></li>
     </ul>
+    <style>
+      #keybinds {
+        display: grid;
+        list-style: none;
+      
+        margin: 0;
+        padding: 1rem;
+        border: 1px solid black;
+      
+        gap: 15px;
+      }
+      
+      .key {
+        color: black;
+        background: rgb(216, 216, 216);
+      
+        padding: 3px;
+      
+        border: 1px solid black;
+        border-radius: 0.25rem;
+      }
+
+      #close {
+        color: white;
+        background: tomato;
+      }
+    </style>
   `;
   document.body.appendChild(dialog);
+
+  document
+    .getElementById("close")
+    ?.addEventListener("click", () => dialog.close());
 
   addMessageListener((type: Message) => {
     switch (type) {
