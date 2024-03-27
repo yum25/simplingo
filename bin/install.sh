@@ -16,3 +16,4 @@ pip install -r requirements.txt
 
 touch app/credentials.py
 echo "GEN_AI_KEY = ''" > app/credentials.py
+echo "GEN_AI_KEY_BACKUP = ''" > app/credentials.py

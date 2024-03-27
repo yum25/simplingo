@@ -10,4 +10,4 @@ else
 fi
 
 source env/bin/activate
-npm run build & $PYTHON app.py
+npm run build & $PYTHON app.py 

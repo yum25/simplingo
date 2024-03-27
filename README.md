@@ -6,8 +6,14 @@ An AI browser extension that helps you understand technical documents and transl
 
 ## Install and Build
 
-**Important Note:** You can ignore the below steps and run the following: First, run the ```install.sh``` script that's in the ```bin/``` folder. Next,  configure the credentials file, inside the ```app/``` folder and enter the credentials by setting ```OPENAI_KEY = '[key]'``` and/ or ```GEN_AI_KEY = '[key]'``` as appropriate, replacing ```[key]``` with the key. Next, run the ```run.sh``` script from the ```bin/``` folder. This will get your application running and create a ```/dist``` directory. Finally, go to [chrome://extensions](chrome://extensions) and press ```Load unpacked```, and select the recently built ```/dist``` directory. All of your changes to the source content will be reflected in real time in this build. To see new changes, reload the extension. 
+**Important Note:** You can ignore the below steps and run the following: 
+- First, run the ```install.sh``` script that's in the ```bin/``` folder. Next,  configure the credentials file, inside the ```app/``` folder and enter the credentials by setting ```OPENAI_KEY = '[key]'``` and/ or ```GEN_AI_KEY = '[key]'``` as appropriate, replacing ```[key]``` with the key. 
+- Next, run the ```run.sh``` script from the ```bin/``` folder. This will get your application running and create a ```/dist``` directory. Finally, go to [chrome://extensions](chrome://extensions) and press ```Load unpacked```, and select the recently built ```/dist``` directory.
+All of your changes to the source content will be reflected in real time in this build. To see new changes, reload the extension. 
+
 **Important Note Pt.2:** The T5 model does not work unless you have an external GPU. 
+
+**Important Note Pt.3:** If you are running this with a backup API key for Gemini, please enter your key in the ```GEN_AI_KEY_BACKUP``` variable in the credentials file and set ```GEMINI_BACKUP = True``` in the config.
 
 ### Frontend
 1. Run ```npm install```. To initialize a dev environment, run ```npm run build``` to create a ```/dist``` directory. 
@@ -42,6 +48,8 @@ curl "http://localhost:5000/get_text?"\
 "modality%20of%20the%20visible&target_lang=en"
 ```
 
+4. [Optional] To test if the models are online, use the ```ping.sh``` script in ```bin/```. To run with a backup model for the Gemini API, do the following: add your second API key to the ```GEN_AI_KEY_BACKUP``` variable in your credentials and set ```GEMINI_BACKUP = True``` in your config. If you are not in debug mode, restart the Flask app; otherwise, the app will be automatically reloaded with the backup model. Instructions for generating an API key below.
+
 ## Dependencies
 
 This project is built and bundled using [webpack](https://webpack.js.org) and [babel](https://www.npmjs.com/package/babel-loader). This comes with multiple benefits: real time build refresh, ES6 style imports/exports, and the ability to modularize files. 
@@ -51,6 +59,8 @@ We use [TypeScript](https://www.typescriptlang.org) to write the extension itsel
 The backend is implemented with Flask, and depending on the model used in the backend will require LLM API library support, Hugging Face modules, and/ or GPU support. Following the installation instructions or running the installation script should take care of necessary packages and dependencies. 
 
 The project has only been tested on Python 3.11; further version details will be supplemented in future updates.
+
+To generate an API key for Gemini, see https://makersuite.google.com/app/apikey. 
 
 ## Known issues
 

@@ -49,6 +49,7 @@ class Config(object):
     #   Model can be gpt2, t5, gemini (support for others is in progress)
     #   Set app langs to those supported by a specific model
     B_MODEL = "gemini"
+    GEMINI_BACKUP = False
     APP_LANGS = gem_app_langs
 
 class ProdConfig(Config):

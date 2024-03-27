@@ -13,7 +13,7 @@ def create_app():
     app.config.from_object(Config)
 
     with app.app_context():
-        md.model = md.init_model()
+        md.model, md.model_backup = md.init_model()
     if md.model is None:
         print(f"{pc.BRED} Error: no model initialized {pc.ENDC}")
 

@@ -87,10 +87,20 @@ class Bard():
             # TODO: enable for tiered simplification
             # if kwargs["simplify"] == 0:
             #     return text, None
+
+            # Input is short enough it probably can't be simplified; TODO: qualify by language
+            if len(text) <= 2:
+                print(f"{pc.FORN}Short input {pc.FCYN + text + pc.ENDC + pc.FORN}, returning text...{pc.ENDC}")
+                return text, None
+
             response = self.summary(text=text, simplify=kwargs["simplify"])
             try:
                 response = response.text
                 print(f"{pc.FCYN}Response: {response}{pc.ENDC}")
+
+                if len(response) >= 2 * len(text):
+                    print(f"{pc.FORN}Output too long, returning original text{pc.ENDC}")
+                    return text, None
 
                 return response, None
             except:
