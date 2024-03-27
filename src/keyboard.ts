@@ -3,22 +3,22 @@ import { getValueFromStorage, setValueToStorage } from "./storage";
 import { Message } from "./types";
 
 document.addEventListener("keydown", async function (e) {
-  if (e.ctrlKey && e.altKey && e.key === "å") {
+  if (e.ctrlKey && e.altKey && e.key === "a") {
     const value = await getValueFromStorage("sidebarOpen");
     setValueToStorage("sidebarOpen", !value);
-  } else if (e.ctrlKey && e.altKey && e.key === "†") {
+  } else if (e.ctrlKey && e.altKey && e.key === "t") {
     forwardRequest(Message.LANGUAGE_REQUEST, {
       translate: true,
       simplify: false,
       language: await getValueFromStorage("language"),
     });
-  } else if (e.ctrlKey && e.altKey && e.key === "ß") {
+  } else if (e.ctrlKey && e.altKey && e.key === "s") {
     forwardRequest(Message.LANGUAGE_REQUEST, {
       translate: false,
       simplify: true,
       language: await getValueFromStorage("language"),
     });
-  } else if (e.ctrlKey && e.altKey && e.key === "©") {
+  } else if (e.ctrlKey && e.altKey && e.key === "g") {
     forwardRequest(Message.LANGUAGE_REQUEST, {
       translate: await getValueFromStorage("translate"),
       simplify: await getValueFromStorage("simplify"),

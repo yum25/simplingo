@@ -105,7 +105,7 @@ class Bard():
                 else:
                     print(f"{pc.FGRN}Response: {response}{pc.ENDC}")
 
-                if len(response) >= 2 * len(text):
+                if len(response) >= 1.7 * len(text):
                     print(f"{pc.FORN}Output too long, returning original text{pc.ENDC}")
                     return text, None
 
