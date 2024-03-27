@@ -9,7 +9,7 @@ from app.settings import print_colors as pc
 # response.candidates
 
 class Bard():
-    def __init__(self, key):
+    def __init__(self, key, backup=False):
         print(f'{pc.FYEL}Loading model...{pc.ENDC}')
         apikey = key
         safety_settings = [
@@ -32,6 +32,7 @@ class Bard():
         ]
         genai.configure(api_key=apikey)
 
+        self.backup = backup
         self.model = genai.GenerativeModel(model_name='gemini-pro',
                                            safety_settings=safety_settings)
 
@@ -77,7 +78,10 @@ class Bard():
             response = self.translate(text=text, target=kwargs["target"], simplify=kwargs["simplify"])
             try:
                 response = response.text
-                print(f"{pc.FCYN}Response: {response}{pc.ENDC}")
+                if not self.backup:
+                    print(f"{pc.FCYN}Response: {response}{pc.ENDC}")
+                else:
+                    print(f"{pc.FGRN}Response: {response}{pc.ENDC}")
 
                 return response, None
             except:
@@ -96,7 +100,10 @@ class Bard():
             response = self.summary(text=text, simplify=kwargs["simplify"])
             try:
                 response = response.text
-                print(f"{pc.FCYN}Response: {response}{pc.ENDC}")
+                if not self.backup:
+                    print(f"{pc.FCYN}Response: {response}{pc.ENDC}")
+                else:
+                    print(f"{pc.FGRN}Response: {response}{pc.ENDC}")
 
                 if len(response) >= 2 * len(text):
                     print(f"{pc.FORN}Output too long, returning original text{pc.ENDC}")

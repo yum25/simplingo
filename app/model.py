@@ -31,9 +31,9 @@ def init_model():
         case "gemini":
             if current_app.config["GEMINI_BACKUP"]:
                 print(f"{pc.FMAG}Using backup for Gemini...{pc.ENDC}")
-                return Bard(GEN_AI_KEY), Bard(GEN_AI_KEY_BACKUP)
+                return Bard(key=GEN_AI_KEY, backup=False), Bard(key=GEN_AI_KEY_BACKUP, backup=True)
             else:
-                return Bard(GEN_AI_KEY), None
+                return Bard(key=GEN_AI_KEY, backup=False), None
         case default:
             print("Error: unrecognized model in init")
             return None, None
