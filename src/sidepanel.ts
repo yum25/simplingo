@@ -149,4 +149,9 @@ document.addEventListener("DOMContentLoaded", function () {
   revertButton.addEventListener("click", function () {
     sendRequest(Message.REVERT, {});
   });
+
+  document.getElementById("cancel")?.addEventListener("click", function() {
+    document.getElementById("disabled")!.style.display = "none";
+    document.getElementById("side-panel")!.style.display = "flex";
+  })
 });
