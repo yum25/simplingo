@@ -15,7 +15,14 @@ export interface MessageData {
   translate?: boolean;
   simplify?: boolean;
   language?: string;
-  requests?: Array<boolean>;
+  requests?: LanguageRequest["requests"];
   tabID?: number;
   error?: Error;
+}
+
+export interface LanguageRequest {
+  url: string;
+  data: MessageData;
+  requests: Array<{ text: string; error: string | null } | false>;
+  timestamp: string;
 }
