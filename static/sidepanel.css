@@ -259,4 +259,8 @@ select {
     --secondary-color-theme: rgb(59, 59, 59);
     --text-color-theme: white;
   }
+
+  .feedback-button img {
+    filter: invert(1);
+  }
 }
