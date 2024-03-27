@@ -126,11 +126,11 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
   smile.addEventListener("click", function () {
-    alert('Thanks for the positive feedback! :)');
+    prompt('Thanks for the positive feedback! :)');
   });
 
   sad.addEventListener("click", function () {
-    alert('Sorry for the negative experience :(');
+    prompt('Sorry for the negative experience :(');
   });
 
   regenerate.addEventListener("click", function () {
