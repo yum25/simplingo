@@ -21,7 +21,7 @@ def init_model():
         case "gpt2":
             return GPT2(), None
         case "gpt35":
-            return None, None
+            return GPT_35(), None
         case "llama":
             return None, None
         case "gpt3":

@@ -11,6 +11,7 @@ gem_app_langs = {'ar': 'Arabic',
                  'en': 'English',
                  'et': 'Estonian',
                  'fi': 'Finnish',
+                 'fr': 'French',
                  'de': 'German',
                  'el': 'Greek',
                  'iw': 'Hebrew',
@@ -49,7 +50,10 @@ class Config(object):
     #   Model can be gpt2, t5, gemini (support for others is in progress)
     #   Set app langs to those supported by a specific model
     B_MODEL = "gemini"
-    GEMINI_BACKUP = False
+    # When using free Gemini API, set up backup model for better response times
+    #   and to avoid hitting rate limits as quickly
+    GEMINI_BACKUP = True
+    GPT_BACKUP = False
     APP_LANGS = gem_app_langs
 
 class ProdConfig(Config):
