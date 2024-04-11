@@ -28,6 +28,14 @@ const handleResponse = (type: Message, data: MessageData) => {
         document.getElementById("side-panel")!.style.display = "flex";
       }
       break;
+    case Message.REVERT_RESPONSE:
+      const revert = <HTMLElement>document.getElementById("revertText");
+      if (data.reverted) {
+        revert.textContent = "see modified text";
+      } else {
+        revert.textContent = "see original text";
+      }
+      break;
     default:
       break;
   }
@@ -113,31 +121,27 @@ document.addEventListener("DOMContentLoaded", function () {
     setValueToStorage("sidebarOpen", !value);
   });
 
-  const smile = <HTMLButtonElement>(
-    document.getElementById("smileButton")
-  );
+  const smile = <HTMLButtonElement>document.getElementById("smileButton");
 
-  const sad = <HTMLButtonElement>(
-    document.getElementById("sadButton")
-  );
+  const sad = <HTMLButtonElement>document.getElementById("sadButton");
 
   const regenerate = <HTMLButtonElement>(
     document.getElementById("regenerateButton")
   );
 
   smile.addEventListener("click", function () {
-    prompt('Thanks for the positive feedback! :) Any additional comments?');
+    prompt("Thanks for the positive feedback! :) Any additional comments?");
   });
 
   sad.addEventListener("click", function () {
-    prompt('Sorry for the negative experience :( What would make it better?');
+    prompt("Sorry for the negative experience :( What would make it better?");
   });
 
   regenerate.addEventListener("click", function () {
-    //regenerate 
-    alert('Query regenerated!');
+    //regenerate
+    alert("Query regenerated!");
   });
-  
+
   const editKeybindButton = <HTMLButtonElement>(
     document.getElementById("edit-keybinds")
   );
@@ -150,8 +154,8 @@ document.addEventListener("DOMContentLoaded", function () {
     sendRequest(Message.REVERT, {});
   });
 
-  document.getElementById("cancel")?.addEventListener("click", function() {
+  document.getElementById("cancel")?.addEventListener("click", function () {
     document.getElementById("disabled")!.style.display = "none";
     document.getElementById("side-panel")!.style.display = "flex";
-  })
+  });
 });

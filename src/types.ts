@@ -5,6 +5,7 @@ export enum Message {
   BACKGROUND_RESPONSE,
   OPEN_DIALOG,
   REVERT,
+  REVERT_RESPONSE,
   DISABLE,
   UPDATE,
 }
@@ -17,6 +18,7 @@ export interface MessageData {
   language?: string;
   requests?: LanguageRequest["requests"];
   tabID?: number;
+  reverted?: boolean;
   error?: Error;
 }
 

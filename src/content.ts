@@ -128,6 +128,10 @@ class ContentScript {
         text.forEach((el: Element, i) => {
           replaceDOMText(textReplace[i], el);
         });
+
+        sendResponse(Message.REVERT_RESPONSE, { reverted: this.originalText.toString() !== currentDOM.toString()});
+        break;
+      default:
         break;
     }
   };
