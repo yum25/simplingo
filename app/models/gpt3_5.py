@@ -22,7 +22,7 @@ class GPT_35():
         self.model = AzureOpenAI(
             api_key=key,  
             api_version=version,
-            azure_endpoint = endpoint
+            azure_endpoint=endpoint
             )
     
         self.deploy = 'gpt-35-instruct-495' 

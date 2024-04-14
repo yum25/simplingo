@@ -21,7 +21,7 @@ def init_model():
         case "gpt2":
             return GPT2(), None
         case "gpt35":
-            return GPT_35(), None
+            return GPT_35(key=OPEN_AI_KEY, version=OPEN_AI_VERSION, endpoint=OPEN_AI_ENDPOINT), None
         case "llama":
             return None, None
         case "gpt3":
