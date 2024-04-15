@@ -43,7 +43,7 @@ const handleResponse = (type: Message, data: MessageData) => {
 
 addMessageListener(handleResponse);
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   const translateToggle = <HTMLInputElement>(
     document.getElementById("translate")
   );
@@ -91,17 +91,20 @@ document.addEventListener("DOMContentLoaded", function () {
   const activateButton = <HTMLButtonElement>document.getElementById("activate");
   const closeButton = <HTMLButtonElement>document.getElementById("close");
 
-  translateToggle.addEventListener("click", function () {
-    const selectOptions = <HTMLElement>(
-      document.getElementById("select-options")
-    );
+  const translateChecked = await getValueFromStorage("translate")
+  if (translateChecked) {
+    languageDropdown!.style.display = "flex";
+  } else {
+    languageDropdown!.style.display = "none";
+  }
+
+  translateToggle.addEventListener("change", function () {
     if (translateToggle.checked) {
-      selectOptions!.style.display = "flex";
+      languageDropdown!.style.display = "flex";
     } else {
-      selectOptions!.style.display = "none";
+      languageDropdown!.style.display = "none";
     }
   });
-
   activateButton.addEventListener("click", function () {
     const translate: boolean = translateToggle.checked;
     const simplify: boolean = simplifyToggle.checked;
