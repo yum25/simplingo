@@ -9,6 +9,7 @@ bp = Blueprint('requests', __name__)
 @bp.route('/get_text', methods=['GET'])
 def get_text():
     """Parses translation/ simplification request and returns appropriate text."""
+    print(f'{pc.FYEL}Request received...{pc.ENDC}')
 
     # Check translate and simplify parameters
     translate = True if flask.request.args.get('translate', default="false", type=str) == "true" else False

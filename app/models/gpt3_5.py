@@ -43,6 +43,7 @@ class GPT_35():
             response = self.generate(input=prompt + text)[0]
         except:
             time.sleep(5)
+            print(f'{pc.FRED}Reattempting {text}...{pc.ENDC}')
             response = self.generate(input=prompt + text)[0]
         return response
 
@@ -59,13 +60,14 @@ class GPT_35():
             response = self.generate(input=prompt + text)[0]
         except:
             time.sleep(5)
+            print(f'{pc.FRED}Reattempting {text}...{pc.ENDC}')
             response = self.generate(input=prompt + text)[0]
         return response
 
 
     def query(self, text, **kwargs):
         """Perform query."""
-        print(f'{pc.FBLU}Performing Bard query...{pc.ENDC}')
+        print(f'{pc.FBLU}Performing GPT query...{pc.ENDC}')
 
         if kwargs["translate"]:
             response = self.translate(text=text, target=kwargs["target"], simplify=kwargs["simplify"])

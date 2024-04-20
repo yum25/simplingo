@@ -65,7 +65,7 @@ class GPT_35():
 
     def query(self, text, **kwargs):
         """Perform query."""
-        print(f'{pc.FBLU}Performing Bard query...{pc.ENDC}')
+        print(f'{pc.FBLU}Performing GPT query...{pc.ENDC}')
 
         if kwargs["translate"]:
             response = self.translate(text=text, target=kwargs["target"], simplify=kwargs["simplify"])
