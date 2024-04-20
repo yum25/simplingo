@@ -22,7 +22,8 @@ class GPT_35():
         self.model = AzureOpenAI(
             api_key=key,  
             api_version=version,
-            azure_endpoint=endpoint
+            azure_endpoint=endpoint,
+            timeout=15.0, max_retries=4
             )
     
         self.deploy = 'gpt-35-instruct-495' 
@@ -68,17 +69,23 @@ class GPT_35():
         print(f'{pc.FBLU}Performing GPT query...{pc.ENDC}')
 
         if kwargs["translate"]:
-            response = self.translate(text=text, target=kwargs["target"], simplify=kwargs["simplify"])
-            try:
-                response = response.text
-                if not self.backup:
-                    print(f"{pc.FCYN}Response: {response}{pc.ENDC}")
-                else:
-                    print(f"{pc.FGRN}Response: {response}{pc.ENDC}")
+            done = False
+            while not done:
+                response = self.translate(text=text, target=kwargs["target"], simplify=kwargs["simplify"])
+                try:
+                    response = response.text
+                    if not self.backup:
+                        print(f"{pc.FCYN}Response: {response}{pc.ENDC}")
+                    else:
+                        print(f"{pc.FGRN}Response: {response}{pc.ENDC}")
 
-                return response, None
-            except:
-                return None, "Some error, debug GPT output"
+                    if len(response) >= 2 * len(text):
+                        print(f"{pc.FORN}Output too long, retrying{pc.ENDC}")
+                        continue
+                    done = True                    
+                    return response, None
+                except:
+                    return None, "Some error, debug GPT output"
             
         elif kwargs["simplify"]:
             # Input is short enough it probably can't be simplified; TODO: qualify by language

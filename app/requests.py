@@ -18,6 +18,7 @@ def get_text():
     simplify = True if flask.request.args.get('simplify', default="false", type=str) == "true" else False
     text = flask.request.args.get('text', default=None, type=str)
     target = None
+    format = flask.request.args.get('format', default='p', type=str)
 
     # Check target language
     if translate:
