@@ -82,6 +82,7 @@ class ContentScript {
         ...data,
         id: this.currentRequestId,
         text: el.innerText as string,
+        tagName: el.tagName,
         index,
         tabID,
       });

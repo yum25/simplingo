@@ -15,6 +15,7 @@ export enum Message {
 export interface MessageData {
   id?: number;
   text?: string;
+  tagName?: string;
   index?: number;
   translate?: boolean;
   simplify?: boolean;

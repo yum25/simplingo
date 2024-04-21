@@ -15,7 +15,7 @@ const handleMessage = async (type: Message, data: MessageData) => {
   switch (type) {
     case Message.BACKGROUND_REQUEST:
       fetch(
-        `http://127.0.0.1:5000/get_text?translate=${data.translate}&simplify=${data.simplify}&text=${data.text}&target_lang=${data.language}`
+        `http://127.0.0.1:5000/get_text?translate=${data.translate}&simplify=${data.simplify}&text=${data.text}&target_lang=${data.language}&tagName=${data.tagName}`
       )
         .then((resp) => {
           if (!resp.ok) {
@@ -24,16 +24,24 @@ const handleMessage = async (type: Message, data: MessageData) => {
           return resp.json();
         })
         .then((query) => {
-          sendBackgroundResponse(Message.BACKGROUND_RESPONSE, {
-            id: data.id,
-            text: query.text,
-            index: data.index,
-            error: query.error,
-          }, data.tabID);
+          sendBackgroundResponse(
+            Message.BACKGROUND_RESPONSE,
+            {
+              id: data.id,
+              text: query.text,
+              index: data.index,
+              error: query.error,
+            },
+            data.tabID
+          );
         })
         .catch((error) => {
           console.log(error);
-          sendBackgroundResponse(Message.BACKGROUND_RESPONSE, { error }, data.tabID);
+          sendBackgroundResponse(
+            Message.BACKGROUND_RESPONSE,
+            { error },
+            data.tabID
+          );
         });
       break;
     default:
