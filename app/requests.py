@@ -23,14 +23,14 @@ def get_text():
     # Check target language
     if translate:
         lang = flask.request.args.get('target_lang', default="xx", type=str)
-        target = current_app.config["APP_LANGS"].get(lang, None)
-        if target is None:
-            print(f"{pc.BRED} Error: target language {lang} unrecogniced\n{pc.ENDC}")
-            response = {
-                "text": None, 
-                "error": f"Target language {lang} for translate not supported by {current_app.config['B_MODEL']} model"
-                }
-            return flask.jsonify(**response)
+        target = model.langs.get(lang, None)
+        if target is None: 
+            print(f"{pc.BRED} Error: target language {lang} unrecognized\n{pc.ENDC}")
+            text, error = None, f"Target language {lang} for translate not supported by {current_app.config['B_MODEL']} model"
+            if not current_app.config["GPT_BACKUP"] or current_app.config["B_Model"] == 'gpt35':
+                response = {"text": text, "error": error}
+                return flask.jsonify(**response)
+
 
     kwargs = {"translate": translate,
               "simplify": simplify,
@@ -39,13 +39,22 @@ def get_text():
     try:
         text, error = model.query(text, **kwargs)
     except:
-        print(f"{pc.BORN}Retrying with backup model...{pc.ENDC}")
-        try:
-            text, error = model_backup.query(text, **kwargs)
-        except:
-            print(f"{pc.BRED}Unable to return response, possible API limit{pc.ENDC}")
-            response = {"text": None, "error": "Unable to return response, possible API limit"}
-            return flask.jsonify(**response)
+        for i, mod in enumerate(model_backup):
+            print(f"{pc.BORN}Retrying with backup model {i}...{pc.ENDC}")
+            try:
+                if translate and mod.langs.get(lang, None) is None:
+                    print(f"{pc.BRED} Error: target language {lang} unrecognized\n{pc.ENDC}")
+                    text, error = None, f"Target language {lang} for translate not supported"
+                    continue
+                kwargs['target'] = mod.langs.get(lang, None)
+
+                text, error = mod.query(text, **kwargs)
+                break
+            except:
+                print(f"{pc.BRED}{i}: Unable to return response, possible API limit{pc.ENDC}")
+                text, error = None, "Unable to return response, possible API limit"
+                # return flask.jsonify(**response)
+
     response = {"text": text, "error": error}
     return flask.jsonify(**response)
 
@@ -62,7 +71,8 @@ def ping_model(model_num):
             text, error = model.query(text, **kwargs)
         elif model_num == '1':
             if current_app.config["GEMINI_BACKUP"]:
-                text, error = model_backup.query(text, **kwargs)
+                for mod in model_backup:
+                    text, error = mod.query(text, **kwargs)
             else:
                 print(f"{pc.FRED}Backup not available{pc.ENDC}")
         else:

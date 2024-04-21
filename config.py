@@ -150,14 +150,19 @@ class Config(object):
     # Configure app specifics:
     #   Model can be gpt2, t5, gemini (support for others is in progress)
     #   Set app langs to those supported by a specific model
-    B_MODEL = "gpt35"
+    B_MODEL = "gemini"
     # When using free Gemini API, set up backup model for better response times
     #   and to avoid hitting rate limits as quickly
-    GEMINI_BACKUP = False
+    GEMINI_BACKUP = True
+    GEMINI_BACKUP_NUMBER = 3
     GPT_BACKUP = False
-    APP_LANGS = gpt_app_langs
-    BACKUP_APP_LANGS = gem_app_langs
+    GEM_LANGS = gem_app_langs
+    GPT_LANGS = gpt_app_langs
 
 class ProdConfig(Config):
     DEVELOPMENT = False
     DEBUG = False
+    B_MODEL = "gpt35"
+    GEMINI_BACKUP = True
+    APP_LANGS = gpt_app_langs
+    BACKUP_APP_LANGS = gem_app_langs

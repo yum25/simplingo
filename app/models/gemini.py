@@ -9,7 +9,7 @@ from app.settings import print_colors as pc
 # response.candidates
 
 class Bard():
-    def __init__(self, key, backup=False):
+    def __init__(self, key, langs, backup=False):
         print(f'{pc.FYEL}Loading model...{pc.ENDC}')
         apikey = key
         safety_settings = [
@@ -33,6 +33,7 @@ class Bard():
         genai.configure(api_key=apikey)
 
         self.backup = backup
+        self.langs = langs
         self.model = genai.GenerativeModel(model_name='gemini-pro',
                                            safety_settings=safety_settings)
 
