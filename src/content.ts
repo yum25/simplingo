@@ -5,7 +5,7 @@ import {
 } from "./messaging";
 import { LanguageRequest, Message, MessageData } from "./types";
 
-const textElements = ["P"];
+const textElements = ["H1", "H2", "H3", "H4", "H5", "H6", "P"];
 
 function getDOMText() {
   const documentText = [];
@@ -107,8 +107,8 @@ class ContentScript {
       console.log(this.requests);
 
       if (data.text) {
-        replaceDOMText(data.text, text[data.index as number]);
-        this.modifiedText[data.index as number] = data.text;
+        replaceDOMText(data.text.trim(), text[data.index as number]);
+        this.modifiedText[data.index as number] = data.text.trim();
       }
     }
     if (data.error) console.error(`Error: ${JSON.stringify(data.error)}`);
