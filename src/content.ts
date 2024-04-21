@@ -5,7 +5,7 @@ import {
 } from "./messaging";
 import { LanguageRequest, Message, MessageData } from "./types";
 
-const textElements = ["H1", "H2", "H3", "H4", "P"];
+const textElements = ["P"];
 
 function getDOMText() {
   const documentText = [];
@@ -13,9 +13,9 @@ function getDOMText() {
   return documentText;
 }
 
-function replaceDOMText(newText: string, el: Element) {
+function replaceDOMText(newText: string, el: HTMLElement) {
   if (el) {
-    el.textContent = newText;
+    el.innerText = newText;
   }
 }
 
@@ -27,8 +27,8 @@ function verifyText(node, text: string) {
   );
 }
 
-function addDocumentText(el: HTMLElement, documentText: Array<Element>) {
-  const text: string = el.textContent ?? "";
+function addDocumentText(el: HTMLElement, documentText: Array<HTMLElement>) {
+  const text: string = el.innerText ?? "";
   if (verifyText(el, text)) {
     documentText.push(el);
   }
@@ -37,13 +37,13 @@ function addDocumentText(el: HTMLElement, documentText: Array<Element>) {
 // See https://stackoverflow.com/questions/5558613/replace-words-in-the-body-text
 function parseDocumentText(
   el: Node,
-  documentText: Array<Element>,
+  documentText: Array<HTMLElement>,
   handleDocumentText: Function
 ) {
   for (let node of el.childNodes) {
     switch (node.nodeType) {
       case Node.ELEMENT_NODE:
-        if (textElements.includes((node as Element).tagName)) {
+        if (textElements.includes((node as HTMLElement).tagName)) {
           handleDocumentText(node, documentText, handleDocumentText);
         } else {
           parseDocumentText(node, documentText, handleDocumentText);
@@ -60,57 +60,62 @@ function parseDocumentText(
 
 class ContentScript {
   originalText: Array<string> = getDOMText().map(
-    (el: Element) => el.textContent as string
+    (el: HTMLElement) => el.innerText as string
   );
   modifiedText: Array<string> = getDOMText().map(
-    (el: Element) => el.textContent as string
+    (el: HTMLElement) => el.innerText as string
   );
 
-  history: Array<LanguageRequest> = [];
+  previousRequest:
+    | { text: HTMLElement[]; data: MessageData; tabID: number }
+    | undefined;
   requests: LanguageRequest["requests"] = [];
+  currentRequestId = 0;
 
   initializeLanguageProcess = (
-    text: Array<Element>,
+    text: Array<HTMLElement>,
     data: MessageData,
     tabID: number
   ) => {
     text.forEach((el, index) => {
       sendBackgroundRequest(Message.BACKGROUND_REQUEST, {
         ...data,
-        text: el.textContent as string,
+        id: this.currentRequestId,
+        text: el.innerText as string,
         index,
         tabID,
       });
     });
 
+    this.previousRequest = { text, data, tabID };
+
     this.requests = text.map(() => false);
-    this.history.unshift({
-      url: location.href,
-      data,
-      requests: this.requests,
-      timestamp: new Date().toString(),
-    });
     sendResponse(Message.DISABLE, { requests: this.requests });
   };
 
-  updateLanguageProcess = (text: Array<Element>, data: MessageData) => {
-    this.requests[data.index as number] = {
-      text: data.text as string,
-      error: data.error,
-    };
-    this.history[0].requests = this.requests;
-
-    if (data.text) {
-      replaceDOMText(data.text, text[data.index as number]);
+  updateLanguageProcess = (text: Array<HTMLElement>, data: MessageData) => {
+    if (data.id === this.currentRequestId) {
+      this.requests[data.index as number] = {
+        text: data.text as string,
+        error: data.error,
+      };
       sendResponse(Message.UPDATE, { requests: this.requests });
+      if (this.requests.filter((req) => req).length === this.requests.length) {
+        this.currentRequestId++;
+      }
 
-      this.modifiedText[data.index as number] = data.text;
+      console.log(this.requests);
+
+      if (data.text) {
+        replaceDOMText(data.text, text[data.index as number]);
+        this.modifiedText[data.index as number] = data.text;
+      }
     }
     if (data.error) console.error(`Error: ${JSON.stringify(data.error)}`);
   };
 
   handleRequest = (type: Message, data: MessageData, tabID) => {
-    const text: Array<Element> = getDOMText();
+    const text: Array<HTMLElement> = getDOMText();
     switch (type) {
       case Message.LANGUAGE_REQUEST:
         this.initializeLanguageProcess(text, data, tabID);
@@ -120,16 +125,30 @@ class ContentScript {
         break;
       case Message.REVERT:
         const currentDOM = getDOMText().map(
-          (el: Element) => el.textContent as string
+          (el: HTMLElement) => el.innerText as string
         );
         const edited = this.originalText.toString() !== currentDOM.toString();
         const textReplace = edited ? this.originalText : this.modifiedText;
 
-        text.forEach((el: Element, i) => {
+        text.forEach((el: HTMLElement, i) => {
           replaceDOMText(textReplace[i], el);
         });
 
-        sendResponse(Message.REVERT_RESPONSE, { reverted: this.originalText.toString() !== currentDOM.toString()});
+        sendResponse(Message.REVERT_RESPONSE, {
+          reverted: this.originalText.toString() !== currentDOM.toString(),
+        });
+        break;
+      case Message.CANCEL:
+        this.currentRequestId++;
+        break;
+      case Message.REGENERATE:
+        if (this.previousRequest) {
+          this.initializeLanguageProcess(
+            this.previousRequest.text,
+            this.previousRequest.data,
+            this.previousRequest.tabID
+          );
+        }
         break;
       default:
         break;

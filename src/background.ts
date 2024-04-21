@@ -25,6 +25,7 @@ const handleMessage = async (type: Message, data: MessageData) => {
         })
         .then((query) => {
           sendBackgroundResponse(Message.BACKGROUND_RESPONSE, {
+            id: data.id,
             text: query.text,
             index: data.index,
             error: query.error,
