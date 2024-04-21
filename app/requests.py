@@ -13,8 +13,7 @@ def get_text():
 
     # Check translate and simplify parameters
     translate = True if flask.request.args.get('translate', default="false", type=str) == "true" else False
-    # TODO: use for tiered simplify
-    # simplify = flask.request.args.get('simplify', default=0, type=int)
+
     simplify = True if flask.request.args.get('simplify', default="false", type=str) == "true" else False
     text_in = flask.request.args.get('text', default=None, type=str)
     target = None
@@ -24,14 +23,18 @@ def get_text():
         text, error = None, "No text provided"
         response = {"text": text, "error": error}
         return flask.jsonify(**response)
+    skip_flag = False
 
-    # Check target language
+    # Check target language for main model
     if translate:
         lang = flask.request.args.get('target_lang', default="xx", type=str)
         target = model.langs.get(lang, None)
+        # If wrong language, note error and retry; if no GPT, return
         if target is None: 
-            print(f"{pc.BRED} Error: target language {lang} unrecognized\n{pc.ENDC}")
+            print(f"{pc.BRED} Error: target language {lang} unrecognized by {current_app.config['B_MODEL']}\n{pc.ENDC}")
             text, error = None, f"Target language {lang} for translate not supported by {current_app.config['B_MODEL']} model"
+            skip_flag = True
+
             if not current_app.config["GPT_BACKUP"] or current_app.config["B_MODEL"] == 'gpt35':
                 response = {"text": text, "error": error}
                 return flask.jsonify(**response)
@@ -39,10 +42,23 @@ def get_text():
 
     kwargs = {"translate": translate,
               "simplify": simplify,
-              "target": target}
+              "target": target,
+              "format": format}
     
     try:
-        text, error = model.query(text_in, **kwargs)
+        if not skip_flag:
+            text, error = model.query(text_in, **kwargs)
+        else:
+            try:
+                if translate and model_backup[-1].langs.get(lang, None) is None:
+                    print(f"{pc.BRED} Error: target language {lang} unrecognized\n{pc.ENDC}")
+                    text, error = None, f"Target language {lang} for translate not supported"
+                kwargs['target'] = model_backup[-1].langs.get(lang, None)
+
+                text, error = model_backup[-1].query(text_in, **kwargs)
+            except:
+                print(f"{pc.BRED}{i}: Unable to return response, possible API limit{pc.ENDC}")
+                text, error = None, "Unable to return response, possible API limit"
     except:
         for i, mod in enumerate(model_backup):
             print(f"{pc.BORN}Retrying with backup model {i}...{pc.ENDC}")

@@ -155,7 +155,7 @@ class Config(object):
     #   and to avoid hitting rate limits as quickly
     GEMINI_BACKUP = True
     GEMINI_BACKUP_NUMBER = 3
-    GPT_BACKUP = False
+    GPT_BACKUP = True
     GEM_LANGS = gem_app_langs
     GPT_LANGS = gpt_app_langs
 
