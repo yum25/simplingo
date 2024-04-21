@@ -109,10 +109,12 @@ class GPT_35():
             print(f'{pc.BBLU}Translating and simplifying...{pc.ENDC}\n')
         else:
             print(f'{pc.BBLU}Translating...{pc.ENDC}\n')
-
+        print(target)
         prompt = "Translate this text into a simple paraphrase in " + target + ": " if simplify else "Translate this text into " + target + ": "
-        
+        print(prompt)
+        print(text)
         try:
+            print(prompt + text)
             response = self.generate(input=prompt + text)[0]
         except:
             # try:

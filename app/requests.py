@@ -16,9 +16,14 @@ def get_text():
     # TODO: use for tiered simplify
     # simplify = flask.request.args.get('simplify', default=0, type=int)
     simplify = True if flask.request.args.get('simplify', default="false", type=str) == "true" else False
-    text = flask.request.args.get('text', default=None, type=str)
+    text_in = flask.request.args.get('text', default=None, type=str)
     target = None
     format = flask.request.args.get('format', default='p', type=str)
+
+    if text_in is None:
+        text, error = None, "No text provided"
+        response = {"text": text, "error": error}
+        return flask.jsonify(**response)
 
     # Check target language
     if translate:
@@ -27,7 +32,7 @@ def get_text():
         if target is None: 
             print(f"{pc.BRED} Error: target language {lang} unrecognized\n{pc.ENDC}")
             text, error = None, f"Target language {lang} for translate not supported by {current_app.config['B_MODEL']} model"
-            if not current_app.config["GPT_BACKUP"] or current_app.config["B_Model"] == 'gpt35':
+            if not current_app.config["GPT_BACKUP"] or current_app.config["B_MODEL"] == 'gpt35':
                 response = {"text": text, "error": error}
                 return flask.jsonify(**response)
 
@@ -37,7 +42,7 @@ def get_text():
               "target": target}
     
     try:
-        text, error = model.query(text, **kwargs)
+        text, error = model.query(text_in, **kwargs)
     except:
         for i, mod in enumerate(model_backup):
             print(f"{pc.BORN}Retrying with backup model {i}...{pc.ENDC}")
@@ -48,7 +53,7 @@ def get_text():
                     continue
                 kwargs['target'] = mod.langs.get(lang, None)
 
-                text, error = mod.query(text, **kwargs)
+                text, error = mod.query(text_in, **kwargs)
                 break
             except:
                 print(f"{pc.BRED}{i}: Unable to return response, possible API limit{pc.ENDC}")
