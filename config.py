@@ -162,7 +162,11 @@ class Config(object):
 class ProdConfig(Config):
     DEVELOPMENT = False
     DEBUG = False
-    B_MODEL = "gpt35"
+    B_MODEL = "gemini"
     GEMINI_BACKUP = True
+    GEMINI_BACKUP_NUMBER = 3
+    GPT_BACKUP = True
+    GEM_LANGS = gem_app_langs
+    GPT_LANGS = gpt_app_langs
     APP_LANGS = gpt_app_langs
     BACKUP_APP_LANGS = gem_app_langs
