@@ -141,8 +141,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
 
   regenerate.addEventListener("click", function () {
-    //regenerate
-    alert("Query regenerated!");
+    sendRequest(Message.REGENERATE, {});
   });
 
   const editKeybindButton = <HTMLButtonElement>(
@@ -160,5 +159,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   document.getElementById("cancel")?.addEventListener("click", function () {
     document.getElementById("disabled")!.style.display = "none";
     document.getElementById("side-panel")!.style.display = "flex";
+
+    sendRequest(Message.CANCEL, {});
   });
 });

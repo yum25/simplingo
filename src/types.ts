@@ -8,9 +8,12 @@ export enum Message {
   REVERT_RESPONSE,
   DISABLE,
   UPDATE,
+  CANCEL,
+  REGENERATE
 }
 
 export interface MessageData {
+  id?: number;
   text?: string;
   index?: number;
   translate?: boolean;
@@ -25,6 +28,6 @@ export interface MessageData {
 export interface LanguageRequest {
   url: string;
   data: MessageData;
-  requests: Array<{ text: string; error: string | null } | false>;
+  requests: Array<{ text: string; error: Error | undefined } | false>;
   timestamp: string;
 }
