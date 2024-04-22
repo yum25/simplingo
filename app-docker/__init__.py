@@ -50,5 +50,16 @@ def create_app():
         with open('app/models/llama.py', 'w') as f:
             f.write('# hi\n')
         return flask.jsonify({'done': True})
+    
+    # with app.app_context():
+    #     flask.redirect(flask.url_for('ping_model', model_num = 0))
+    text = "light sob of breath Bloom sighed on the silent bluehued flowers"
+    kwargs = {"translate": False,
+              "simplify": True,
+              "target": "English",
+              "format": 'p'}
+    error = None
+     
+    text, error = md.model.query(text, **kwargs)
 
     return app
