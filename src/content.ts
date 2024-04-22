@@ -19,6 +19,12 @@ function replaceDOMText(newText: string, el: HTMLElement) {
   }
 }
 
+function replaceDOMHTML(newHTML: string, el: HTMLElement) {
+  if (el) {
+    el.innerHTML = newHTML;
+  }
+}
+
 function verifyText(node, text: string) {
   return (
     !/SCRIPT|STYLE/.test(node.parentNode.tagName) &&
@@ -59,12 +65,17 @@ function parseDocumentText(
 }
 
 class ContentScript {
+  originalHTML: Array<string> = getDOMText().map(
+    (el: HTMLElement) => el.innerHTML as string
+  )
   originalText: Array<string> = getDOMText().map(
     (el: HTMLElement) => el.innerText as string
   );
   modifiedText: Array<string> = getDOMText().map(
     (el: HTMLElement) => el.innerText as string
   );
+
+  modified = false;
 
   previousRequest:
     | { text: HTMLElement[]; data: MessageData; tabID: number }
@@ -103,13 +114,12 @@ class ContentScript {
       sendResponse(Message.UPDATE, { requests: this.requests });
       if (this.requests.filter((req) => req).length === this.requests.length) {
         this.currentRequestId++;
+        this.modified = true;
       }
 
-      console.log(this.requests);
-
       if (data.text) {
-        replaceDOMText(data.text.trim(), text[data.index as number]);
-        this.modifiedText[data.index as number] = data.text.trim();
+        replaceDOMText(data.text, text[data.index as number]);
+        this.modifiedText[data.index as number] = data.text;
       }
     }
     if (data.error) console.error(`Error: ${JSON.stringify(data.error)}`);
@@ -125,22 +135,21 @@ class ContentScript {
         this.updateLanguageProcess(text, data);
         break;
       case Message.REVERT:
-        const currentDOM = getDOMText().map(
-          (el: HTMLElement) => el.innerText as string
-        );
-        const edited = this.originalText.toString() !== currentDOM.toString();
-        const textReplace = edited ? this.originalText : this.modifiedText;
+        const textReplace = this.modified ? this.originalHTML : this.modifiedText;
 
         text.forEach((el: HTMLElement, i) => {
-          replaceDOMText(textReplace[i], el);
+          replaceDOMHTML(textReplace[i], el);
         });
 
         sendResponse(Message.REVERT_RESPONSE, {
-          reverted: this.originalText.toString() !== currentDOM.toString(),
+          reverted: this.modified,
         });
+
+        this.modified = !this.modified;
         break;
       case Message.CANCEL:
         this.currentRequestId++;
+        this.modified = true;
         break;
       case Message.REGENERATE:
         if (this.previousRequest) {
