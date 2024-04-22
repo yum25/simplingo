@@ -36,6 +36,7 @@ def get_text():
         # If wrong language, note error and retry; if no GPT, return
         if target is None: 
             print(f"{pc.BRED} Error: target language {lang} unrecognized by {current_app.config['B_MODEL']}\n{pc.ENDC}")
+            print(flask.request.__dict__)
             text, error = None, f"Target language {lang} for translate not supported by {current_app.config['B_MODEL']} model"
             skip_flag = True
 
