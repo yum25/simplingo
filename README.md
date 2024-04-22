@@ -6,6 +6,10 @@ An AI browser extension that helps you understand technical documents and transl
 
 ## Install and Build
 
+**Updated:** To build and run in a single command, run ```build_and_run.sh``` from the current directory. Then, go to [chrome://extensions](chrome://extensions) and press ```Load unpacked```, and select ```/dist``` directory in this directory.
+- Note: this requires [Docker](https://docs.docker.com/desktop/) in addition to dependencies mentioned below; to run without Docker, see the sections below. 
+- If you receive an error from the Flask app, check that you have filled out the API keys in the ```credentials.py``` file inside ```app-docker/```. To generate API keys for Gemini, see [here](https://makersuite.google.com/app/apikey). For Azure OpenAI keys, go to your Azure OpenAI resource and look under Keys and Endpoints.
+
 **Important Note:** You can ignore the below steps and run the following: 
 - First, run the ```install.sh``` script that's in the ```bin/``` folder. Next,  configure the credentials file, inside the ```app/``` folder and enter the credentials by setting ```OPENAI_KEY = '[key]'``` and/ or ```GEN_AI_KEY = '[key]'``` as appropriate, replacing ```[key]``` with the key. 
 - Next, run the ```run.sh``` script from the ```bin/``` folder. This will get your application running and create a ```/dist``` directory. Finally, go to [chrome://extensions](chrome://extensions) and press ```Load unpacked```, and select the recently built ```/dist``` directory.
