@@ -17,7 +17,11 @@ def get_text():
     simplify = True if flask.request.args.get('simplify', default="false", type=str) == "true" else False
     text_in = flask.request.args.get('text', default=None, type=str)
     target = None
-    format = flask.request.args.get('format', default='p', type=str)
+    format = flask.request.args.get('tagName', default='P', type=str)
+    if format == 'P':
+        format = 'p'
+    elif format[0] == 'H':
+        format = 'h'
 
     if text_in is None:
         text, error = None, "No text provided"
@@ -85,7 +89,8 @@ def ping_model(model_num):
     text = "light sob of breath Bloom sighed on the silent bluehued flowers"
     kwargs = {"translate": False,
               "simplify": True,
-              "target": "English"}
+              "target": "English",
+              "format": 'p'}
     error = None
     try: 
         if model_num == '0':
