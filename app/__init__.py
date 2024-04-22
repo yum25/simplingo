@@ -1,5 +1,7 @@
 from flask import Flask
 import flask
+import os
+import pathlib
 
 from config import Config
 from app.settings import print_colors as pc
@@ -29,5 +31,24 @@ def create_app():
     @app.route('/', methods=['GET'])
     def index():
         return flask.send_from_directory('static/', 'consent-short.html')
+    
+    from flask import request
+
+    def shutdown_server():
+        func = request.environ.get('werkzeug.server.shutdown')
+        if func is None:
+            raise RuntimeError('Not running with the Werkzeug Server')
+        func()
+        
+    @app.route('/shutdown', methods=['GET'])
+    def shutdown():
+        shutdown_server()
+        return 'Server shutting down...'
+    
+    @app.route('/edit', methods=['GET'])
+    def sloppy_restart():
+        with open('app/models/llama.py', 'w') as f:
+            f.write('# hi\n')
+        return flask.jsonify({'done': True})
 
     return app
