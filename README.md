@@ -17,7 +17,7 @@ All of your changes to the source content will be reflected in real time in this
 
 **Important Note Pt.2:** The T5 model does not work unless you have an external GPU. 
 
-**Important Note Pt.3:** If you are running this with a backup API key for Gemini, please enter your key in the ```GEN_AI_KEY_BACKUP``` variable in the credentials file and set ```GEMINI_BACKUP = True``` in the config.
+**Important Note Pt.3:** If you are running this with a backup API key for Gemini, please enter your key(s) in the ```GEN_AI_KEY_BACKUP``` variable in the credentials file and set ```GEMINI_BACKUP = True``` in the config.
 
 ### Frontend
 1. Run ```npm install```. To initialize a dev environment, run ```npm run build``` to create a ```/dist``` directory. 
@@ -61,6 +61,7 @@ This project is built and bundled using [webpack](https://webpack.js.org) and [b
 We use [TypeScript](https://www.typescriptlang.org) to write the extension itself, and [webextension-polyfill](https://github.com/mozilla/webextension-polyfill) for compatibility between multiple browsers.
 
 The backend is implemented with Flask, and depending on the model used in the backend will require LLM API library support, Hugging Face modules, and/ or GPU support. Following the installation instructions or running the installation script should take care of necessary packages and dependencies. 
+Alternatively running it requires [Docker](https://docs.docker.com/desktop/).
 
 The project has only been tested on Python 3.11; further version details will be supplemented in future updates.
 
@@ -68,7 +69,12 @@ To generate an API key for Gemini, see https://makersuite.google.com/app/apikey.
 
 ## Known issues
 
-- Additional note, we have found that occasionally the API is occasionally unresponsive at first when starting up, and it helps to prompt it with a very short request (such as the test HTTP request specified above). We are still investigating why this occurs, as it occurs infrequently and is a difficult error to replicate and thus diagnose. 
+- Additional note, we have found that occasionally the API is occasionally unresponsive at first when starting up, and it helps to prompt it with a very short request (such as the test HTTP request specified above). We are still investigating why this occurs, as it occurs infrequently and is a difficult error to replicate and thus diagnose. Workarounds have been implemented to mitigate this issue as best as we can, but as the root issue has not been solved, we cannot say for sure if it will occur again.
 - Similarly, we have seen that the Gemini API occasionally generates internal errors that have nothing to do with our code and may be tied to rate limits or internal model errors; we have been unable to find an input or scenario that consistently replicates this error either, so it is similarly difficult to replicate and diagnose. In the case that it occurs, we have found that simply waiting for a time before trying again seems to help. However, as we have only managed to incur this error once, we're as of yet unsure of the best way to deal with this. 
  - Addendum: further testing implies that we are encountering rate limit errors. Certain mitigation measures have been placed, but we are still restricted by API limits.
-- Keyboard shortcut support on multiple platforms is a work in progress due to need for disambiguations.
+- Azure OpenAI client is failing to raise timeout exceptions consistently even when it is very clearly timing out, which is proving a headache for advanced language support and more sophisticated prompting. Current app uses primitive load balancing and redistribution to circumvent immediate effects of model API limitations in the backend. 
+
+### Further steps - future work
+- While backend operations are bottlenecked by model issues, there are a couple of possible measures that have not been explored to sufficient depth. Flask was originally chosen as it is lightweight and easy to deploy, but it also comes with caveats of minimal asynchronous support and relatively low scalability. One could take the time to overhaul the backend under a different framework that supports these features or to add other frameworks to the backend structure, such as running Flask with Celery to provide increased flexibility with task management. Pythonic methods of managing request lifetimes are of questionable effect in Flask alone, but it is possible that task revocation through Celery delegations could provide a feasible alternative method to resolve the Azure OpenAI timeout issue. However, this cannot be ascertained without sufficient appropriate testing and remains a conjecture/ future step for now.
+- Main challenges in the frontend that remain are primarily confined to text parsing, as far as the extension's main functionality is concerned. While the extension operates fairly well on webpages with "normal" formatting or that have easily accessible text elements, it fails to account for site-specific CSS definitions as well as somewhat odder uses of HTML. Fixing this would not be excessively difficult but would begin to asymptotically approach an end goal state, as there is no limit to the number of unique ways users can use HTML/ CSS to render their websites howsoever they choose. 
+- Code can be refactored for better readability in backend. 
