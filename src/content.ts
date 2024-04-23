@@ -5,6 +5,7 @@ import {
 } from "./messaging";
 import { LanguageRequest, Message, MessageData } from "./types";
 
+const batchSize = 15;
 const textElements = ["H1", "H2", "H3", "H4", "H5", "H6", "P"];
 
 function getDOMText() {
@@ -67,7 +68,7 @@ function parseDocumentText(
 class ContentScript {
   originalHTML: Array<string> = getDOMText().map(
     (el: HTMLElement) => el.innerHTML as string
-  )
+  );
   originalText: Array<string> = getDOMText().map(
     (el: HTMLElement) => el.innerText as string
   );
@@ -83,26 +84,53 @@ class ContentScript {
   requests: LanguageRequest["requests"] = [];
   currentRequestId = 0;
 
-  initializeLanguageProcess = (
+  interval;
+  batchCount = 0;
+
+  sendBatchRequest = (
     text: Array<HTMLElement>,
     data: MessageData,
     tabID: number
   ) => {
-    text.forEach((el, index) => {
+    const batch = text.slice(
+      this.batchCount * batchSize,
+      (this.batchCount + 1) * batchSize
+    );
+
+    batch.forEach((el, index) => {
       sendBackgroundRequest(Message.BACKGROUND_REQUEST, {
         ...data,
         id: this.currentRequestId,
         text: el.innerText as string,
         tagName: el.tagName,
-        index,
+        index: index + this.batchCount * batchSize,
         tabID,
       });
     });
 
+    this.batchCount++;
+  };
+
+  initializeLanguageProcess = (
+    text: Array<HTMLElement>,
+    data: MessageData,
+    tabID: number
+  ) => {
     this.previousRequest = { text, data, tabID };
 
     this.requests = text.map(() => false);
     sendResponse(Message.DISABLE, { requests: this.requests });
+
+    this.batchCount = 0;
+
+    this.sendBatchRequest(text, data, tabID);
+    this.interval = setInterval(() => {
+      this.sendBatchRequest(text, data, tabID);
+
+      if (this.batchCount * batchSize === text.length) {
+        clearInterval(this.interval);
+      }
+    }, 15000);
   };
 
   updateLanguageProcess = (text: Array<HTMLElement>, data: MessageData) => {
@@ -135,7 +163,9 @@ class ContentScript {
         this.updateLanguageProcess(text, data);
         break;
       case Message.REVERT:
-        const textReplace = this.modified ? this.originalHTML : this.modifiedText;
+        const textReplace = this.modified
+          ? this.originalHTML
+          : this.modifiedText;
 
         text.forEach((el: HTMLElement, i) => {
           replaceDOMHTML(textReplace[i], el);
@@ -150,6 +180,7 @@ class ContentScript {
       case Message.CANCEL:
         this.currentRequestId++;
         this.modified = true;
+        clearInterval(this.interval);
         break;
       case Message.REGENERATE:
         if (this.previousRequest) {
