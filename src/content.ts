@@ -5,17 +5,27 @@ import {
 } from "./messaging";
 import { LanguageRequest, Message, MessageData } from "./types";
 
-const batchSize = 15;
-const textElements = ["H1", "H2", "H3", "H4", "H5", "H6", "P"];
+const batchSize = 25;
+let textElements = ["H1", "H2", "H3", "H4", "H5", "H6", "P"];
 
 function getDOMText() {
   const documentText = [];
-  parseDocumentText(document.body, documentText, addDocumentText);
+  const url = window.location.hostname;
+  if (url === "www.youtube.com") {
+    parseDocumentText(document.body, documentText, addDocumentText, ["H1", "H2", "H3", "H4", "H5", "H6", "P", "YT-ATTRIBUTED-STRING"]);
+  } else if (url === "umich.instructure.com") {
+    parseDocumentText(document.body, documentText, addDocumentText, ["H1", "H2", "H3", "H4", "H5", "H6", "P", "A"]);
+  } else {
+    parseDocumentText(document.body, documentText, addDocumentText, textElements);
+  }
+ 
   return documentText;
 }
 
 function replaceDOMText(newText: string, el: HTMLElement) {
   if (el) {
+    el.textContent = "";
+    el.innerHTML = "";
     el.innerText = newText;
   }
 }
@@ -37,7 +47,11 @@ function verifyText(node, text: string) {
 function addDocumentText(el: HTMLElement, documentText: Array<HTMLElement>) {
   const text: string = el.innerText ?? "";
   if (verifyText(el, text)) {
-    documentText.push(el);
+    if (el.parentElement?.tagName === "A") {
+      documentText.push(el.parentElement);
+    } else {
+      documentText.push(el);
+    }
   }
 }
 
@@ -45,7 +59,8 @@ function addDocumentText(el: HTMLElement, documentText: Array<HTMLElement>) {
 function parseDocumentText(
   el: Node,
   documentText: Array<HTMLElement>,
-  handleDocumentText: Function
+  handleDocumentText: Function,
+  textElements,
 ) {
   for (let node of el.childNodes) {
     switch (node.nodeType) {
@@ -53,14 +68,14 @@ function parseDocumentText(
         if (textElements.includes((node as HTMLElement).tagName)) {
           handleDocumentText(node, documentText, handleDocumentText);
         } else {
-          parseDocumentText(node, documentText, handleDocumentText);
+          parseDocumentText(node, documentText, handleDocumentText, textElements);
         }
         break;
       // case Node.TEXT_NODE:
       //     handleDocumentText(node, documentText);
       //     break;
       case Node.DOCUMENT_NODE:
-        parseDocumentText(node, documentText, handleDocumentText);
+        parseDocumentText(node, documentText, handleDocumentText, textElements);
     }
   }
 }
@@ -130,7 +145,7 @@ class ContentScript {
       if (this.batchCount * batchSize === text.length) {
         clearInterval(this.interval);
       }
-    }, 15000);
+    }, 16000);
   };
 
   updateLanguageProcess = (text: Array<HTMLElement>, data: MessageData) => {
@@ -191,6 +206,13 @@ class ContentScript {
           );
         }
         break;
+      // case Message.INTENSIVE:
+      //   if (data.intensive) {
+      //     textElements = ["H1", "H2", "H3", "H4", "H5", "H6", "A", "LI", "P"];
+      //   }  else {
+      //     textElements = ["H1", "H2", "H3", "H4", "H5", "H6", "P"];
+      //   }
+      //   break;
       default:
         break;
     }
