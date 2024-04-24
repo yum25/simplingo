@@ -47,10 +47,10 @@ function initializeDialog() {
   <button id="close">X</button>
   <div style="height: 5px;" aria-hidden="true"></div>
     <ul id="keybinds">
-      <li>Toggle sidepanel: <span class="key">Ctrl</span> + <span class="key">Alt</span> + <span class="key">A</span></li>
-      <li>Translate page: <span class="key">Ctrl</span> + <span class="key">Alt</span> + <span class="key">T</span></li>
-      <li>Simplify page: <span class="key">Ctrl</span> + <span class="key">Alt</span> + <span class="key">S</span></li>
-      <li>Activate Go button: <span class="key">Ctrl</span> + <span class="key">Alt</span> + <span class="key">G</span></li>
+      <li>Toggle sidepanel: <span class="key command">Ctrl</span> + <span class="key">Alt</span> + <span class="key">A</span></li>
+      <li>Translate page: <span class="key command">Ctrl</span> + <span class="key">Alt</span> + <span class="key">T</span></li>
+      <li>Simplify page: <span class="key command">Ctrl</span> + <span class="key">Alt</span> + <span class="key">S</span></li>
+      <li>Activate Go button: <span class="key command">Ctrl</span> + <span class="key">Alt</span> + <span class="key">G</span></li>
     </ul>
     <style>
       #keybinds {
@@ -81,6 +81,13 @@ function initializeDialog() {
     </style>
   `;
   document.body.appendChild(dialog);
+
+  const isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0;
+  const command = document.getElementsByClassName("command");
+
+  for (let i = 0; i < command.length; i++) {
+    (command[i] as HTMLElement).textContent = isMac ? "Cmd" : "Ctrl";
+  }
 
   document
     .getElementById("close")
