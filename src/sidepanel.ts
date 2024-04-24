@@ -152,13 +152,19 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   smile.addEventListener("click", function () {
     let feedback = prompt("Thanks for the positive feedback! :) Any additional comments?");
+    if (feedback) {
+      alert("Feedback sent successfully!");
+    }
   });
 
   sad.addEventListener("click", function () {
     let feedback = prompt("Sorry for the negative experience :( What would make it better?");
+    if (feedback) {
+      alert("Feedback sent successfully!");
+    }
   });
 
-  function sendFeedback(feedback: string) {
+  function send_message(text: string, option: string) {
     const apiUrl = "http://0.0.0.0:5000/sendFeedback"; 
   
     fetch(apiUrl, {
@@ -166,7 +172,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ feedback: feedback }),
+      body: JSON.stringify({ feedback: text, sadOrHappy: option }),
     })
     .then(response => response.json())
     .then(data => {

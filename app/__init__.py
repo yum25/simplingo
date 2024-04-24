@@ -51,8 +51,8 @@ def create_app():
             f.write('# hi\n')
         return flask.jsonify({'done': True})
     
-    @app.route('/sendFeedback', methods=['POST'])
-    def send_feedback():
+    @app.route('/send_message', methods=['POST'])
+    def send_message(text, option):
     # SEND EMAIL?
         return 'Feedback sent!'
     
