@@ -12,7 +12,7 @@ function getDOMText() {
   const documentText = [];
   const url = window.location.hostname;
   if (url === "www.youtube.com") {
-    parseDocumentText(document.body, documentText, addDocumentText, ["H1", "H2", "H3", "H4", "H5", "H6", "P", "SPAN"]);
+    parseDocumentText(document.body, documentText, addDocumentText, ["H1", "H2", "H3", "H4", "H5", "H6", "P", "YT-ATTRIBUTED-STRING"]);
   } else if (url === "umich.instructure.com") {
     parseDocumentText(document.body, documentText, addDocumentText, ["H1", "H2", "H3", "H4", "H5", "H6", "P", "A"]);
   } else {
