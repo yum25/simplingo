@@ -101,7 +101,7 @@ gpt_app_langs = {# 'af': 'Afrikaans', # Afrikaans
                  'mt': 'Maltese', # Malti
                  'mwr': 'Marwari', # मारवाड़ी
                  # 'my': 'Burmese', # မြန်မာအက္ခရာ
-                 'nan': 'Min Nan', # 閩南語
+                 'nan': 'Min Nan dialect', # 閩南語
                  'ne': 'Nepali', # नेपाली
                  'nl': 'Dutch', # Nederlands
                  'no': 'Norwegian', # Norsk
@@ -137,7 +137,7 @@ gpt_app_langs = {# 'af': 'Afrikaans', # Afrikaans
                  'ur': 'Urdu', # اردو
                  'uz': 'Uzbek', # Ўзбек
                  'vi': 'Vietnamese', # Việt Nam
-                 'wuu': 'Wu', # 吴语
+                 'wuu': 'Wu dialect', # 吴语
                  'yue': 'Cantonese', # 粵語
                  'zh': 'Simplified Chinese', # 中文 （简体）
                  'zh-tw': 'Traditional Chinese',} # 中文 （繁體）

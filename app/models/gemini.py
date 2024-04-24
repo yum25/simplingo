@@ -36,6 +36,11 @@ class Bard():
         self.langs = langs
         self.model = genai.GenerativeModel(model_name='gemini-pro',
                                            safety_settings=safety_settings)
+        self.sinolangs = ['Simplified Chinese', 
+                          'Traditional Chinese',
+                          'Japanese',
+                          'Korean',
+                          'Vietnamese']
 
     def lang_query(self, text):
         pass
@@ -79,8 +84,6 @@ class Bard():
             print(f'{pc.BRED}Unrecognized format {format}{pc.ENDC}')
             prompt = "Translate this text into a simple paraphrase in " + target + ": " if simplify else "Translate this text into " + target + ": "
 
-        # prompt = "Translate this text into a simple paraphrase in " + target + ": " if simplify else "Translate this text into " + target + ": "
-        
         try:
             response = self.model.generate_content(prompt + text)
         except:
@@ -107,9 +110,11 @@ class Bard():
                     
                     if ((len(response) >= 1.7 * len(text) and kwargs["format"] == 'h') or
                         (len(response) >= 2 * len(text) and kwargs["format"] == 'p')):
-                        if attempts > 3:
-                            print(f"{pc.FORN}Output too long, returning original text{pc.ENDC}")
-                            return text, None
+
+                        if kwargs["target"] in self.sinolangs:
+                            if len(response) >= 3 * len(text) and kwargs["format"] == 'h':
+                                continue
+
                         print(f"{pc.FORN}Output too long, retrying{pc.ENDC}")
                         continue
 

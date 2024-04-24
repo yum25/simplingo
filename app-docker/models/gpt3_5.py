@@ -37,50 +37,21 @@ class GPT_35():
         self.deploy = 'gpt-35-instruct-495' 
         self.backup = backup
         self.langs = langs
-    #     self.queue = Queue()
-
-    # def create(self, model, prompt, max_tokens):
-    #     out = self.model.completions.create(
-    #         model=model, prompt=prompt, max_tokens=max_tokens
-    #     )
-    #     self.queue.put(out)
-    #     print(self.queue.empty())
+        self.sinolangs = ['Japanese',
+                          'Korean',
+                          'Min Nan',
+                          'Vietnamese',
+                          'Wu dialect',
+                          'Cantonese',
+                          'Simplified Chinese',
+                          'Traditional Chinese']
 
     def generate(self, input, max_tokens=4096):
-        # queue = Queue()
-        # # watch = False
-        # # alarm = threading.Timer(18.0, watchdog, args=(watch,))
-        # # alarm.start()
-        # print("GPT generating")
-        # response = None
-        # p = multiprocessing.Process(target=self.create, args=(self.deploy, input, max_tokens))
-        # p.start()
-        # # p.daemon = True
-        # print("start")
-        # time.sleep(4)
-        # p.join()
-        # print("join")
-        # if p.is_alive():
-        #     print('terminating')
-        #     p.terminate()
-        #     raise TimeoutError
-        # print(self.queue.empty())
-        # response = self.queue.get()
-        # print('GPT done generating')
-        # print(response.choices)
-        
-        # if response is None:
-        #     print("hi")
-        #     raise TimeoutError
         try:
             response = self.model.completions.create(
                 model=self.deploy, prompt=input, max_tokens=max_tokens)
         except:
             raise TimeoutError
-        # alarm.cancel()
-        # if watch:
-        #     print(f'{pc.BRED}Timed out generate{pc.ENDC}')
-        #     raise TimeoutError
 
         return response.choices
 
@@ -94,19 +65,14 @@ class GPT_35():
             prompt = "Simplify this title: "
         elif format == 'l':
             print(f'{pc.BRED}Not yet implemented l type{pc.ENDC}')
-            raise Exception
+            prompt = "Paraphrase this text simply: "
         else:
             print(f'{pc.BRED}Unrecognized format {format}{pc.ENDC}')
+            prompt = "Paraphrase this text simply: "
 
         try:
             response = self.generate(input=prompt + text)[0]
-            # self.generate(input = prompt + text)
-            # response = self.queue.get().choices[0]
         except:
-            # try:
-            #     time.sleep(5)
-            #     response = self.generate(input=prompt + text)[0]
-            # except:
             raise TimeoutError
 
         return response
@@ -124,18 +90,14 @@ class GPT_35():
             prompt = "Translate this title into " + target + ": "
         elif format == 'l':
             print(f'{pc.BRED}Not yet implemented l type{pc.ENDC}')
-            raise Exception
+            prompt = "Translate this text into a simple paraphrase in " + target + ": " if simplify else "Translate this text into " + target + ": "
         else:
             print(f'{pc.BRED}Unrecognized format {format}{pc.ENDC}')
-        # prompt = "Translate this text into a simple paraphrase in " + target + ": " if simplify else "Translate this text into " + target + ": "
+            prompt = "Translate this text into a simple paraphrase in " + target + ": " if simplify else "Translate this text into " + target + ": "
 
         try:
             response = self.generate(input=prompt + text)[0]
         except:
-            # try:
-            #     time.sleep(5)
-            #     response = self.generate(input=prompt + text)[0]
-            # except:
             print(f'{pc.BRED}GPT translate timed out{pc.ENDC}')
             raise TimeoutError
 
@@ -161,9 +123,9 @@ class GPT_35():
 
                     if ((len(response) >= 1.7 * len(text) and kwargs["format"] == 'h') or
                         (len(response) >= 2 * len(text) and kwargs["format"] == 'p')):
-                        if attempts > 3:
-                            print(f"{pc.FORN}Output too long, returning original text{pc.ENDC}")
-                            return text, None
+                        if kwargs["target"] in self.sinolangs:
+                            if len(response) >= 3 * len(text) and kwargs["format"] == 'h':
+                                continue
                         print(f"{pc.FORN}Output too long, retrying{pc.ENDC}")
                         continue
 

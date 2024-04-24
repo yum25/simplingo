@@ -5,14 +5,17 @@ import pathlib
 
 from config import Config
 from app.settings import print_colors as pc
+from app.mail import mail
 import app.model as md
-
 
 def create_app():
     """Create app."""
     # Initialize app
     app = Flask(__name__)
     app.config.from_object(Config)
+
+    # Init mail
+    mail.init_app(app)
 
     with app.app_context():
         md.model, md.model_backup = md.init_model()
@@ -50,6 +53,11 @@ def create_app():
         with open('app/models/llama.py', 'w') as f:
             f.write('# hi\n')
         return flask.jsonify({'done': True})
+    
+    @app.route('/send_message', methods=['POST'])
+    def send_message(text, option):
+    # SEND EMAIL?
+        return 'Feedback sent!'
     
     # with app.app_context():
     #     flask.redirect(flask.url_for('ping_model', model_num = 0))

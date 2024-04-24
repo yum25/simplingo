@@ -52,9 +52,6 @@ def init_model():
             if len(model_list) == 0:
                 return Bard(key=GEN_AI_KEY, langs=gem_langs, backup=False), None
             return Bard(key=GEN_AI_KEY, langs=gem_langs, backup=False), model_list
-                # return Bard(key=GEN_AI_KEY, backup=False), GPT_35(key=OPEN_AI_KEY, version=OPEN_AI_VERSION, endpoint=OPEN_AI_ENDPOINT, backup=True)
-            # else:
-            #     return Bard(key=GEN_AI_KEY, backup=False), None
         case default:
             print("Error: unrecognized model in init")
             return None, None
