@@ -7,24 +7,6 @@ import {
   setValuesToStorage,
   storageChangeListener,
 } from "./storage";
-import nodemailer from 'nodemailer';
-
-const transporter = nodemailer.createTransport({
-  service: 'Gmail',
-  auth: {
-    user: 'simplingoteam@gmail.com', //  email address
-    pass: 'CookieIncentive2024', //  password
-  },
-});
-
-const mailOptions: nodemailer.SendMailOptions = {
-  from: 'simplingoteam@gmail.com', // Sender
-  to: 'simplingoteam@gmail.com', // Recipient
-  subject: 'SimpLingo Feedback', // Email subject
-  html: 'mail.html', // Email HTML content
-};
-
-
 
 const handleResponse = (type: Message, data: MessageData) => {
   switch (type) {
