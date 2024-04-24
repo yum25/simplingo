@@ -75,7 +75,7 @@ function parseDocumentText(
       //     handleDocumentText(node, documentText);
       //     break;
       case Node.DOCUMENT_NODE:
-        parseDocumentText(node, documentText, handleDocumentText);
+        parseDocumentText(node, documentText, handleDocumentText, textElements);
     }
   }
 }
