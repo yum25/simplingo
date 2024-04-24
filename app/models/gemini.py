@@ -49,9 +49,10 @@ class Bard():
             prompt = "Simplify this title: "
         elif format == 'l':
             print(f'{pc.BRED}Not yet implemented l type{pc.ENDC}')
-            raise Exception
+            prompt = "Paraphase this text simply: "
         else:
             print(f'{pc.BRED}Unrecognized format {format}{pc.ENDC}')
+            prompt = "Paraphase this text simply: "
 
         try:
             response = self.model.generate_content(prompt + text)
@@ -73,9 +74,10 @@ class Bard():
             prompt = "Translate this title into " + target + ": "
         elif format == 'l':
             print(f'{pc.BRED}Not yet implemented l type{pc.ENDC}')
-            raise Exception
+            prompt = "Translate this text into a simple paraphrase in " + target + ": " if simplify else "Translate this text into " + target + ": "
         else:
             print(f'{pc.BRED}Unrecognized format {format}{pc.ENDC}')
+            prompt = "Translate this text into a simple paraphrase in " + target + ": " if simplify else "Translate this text into " + target + ": "
 
         # prompt = "Translate this text into a simple paraphrase in " + target + ": " if simplify else "Translate this text into " + target + ": "
         

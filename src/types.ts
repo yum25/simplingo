@@ -9,7 +9,8 @@ export enum Message {
   DISABLE,
   UPDATE,
   CANCEL,
-  REGENERATE
+  REGENERATE,
+  INTENSIVE,
 }
 
 export interface MessageData {
@@ -23,6 +24,7 @@ export interface MessageData {
   requests?: LanguageRequest["requests"];
   tabID?: number;
   reverted?: boolean;
+  intensive?: boolean;
   error?: Error;
 }
 
