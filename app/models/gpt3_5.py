@@ -88,15 +88,16 @@ class GPT_35():
     def summary(self, text, format):
         """Perform simple simplification query."""
         print(f'{pc.BBLU}Simplifying...{pc.ENDC}\n')
+        prompt = "Paraphase this text simply: "
         if format == 'p':
             prompt = "Paraphase this text simply: "
         elif format == 'h':
             prompt = "Simplify this title: "
-        elif format == 'l':
-            print(f'{pc.BRED}Not yet implemented l type{pc.ENDC}')
-            raise Exception
-        else:
-            print(f'{pc.BRED}Unrecognized format {format}{pc.ENDC}')
+        # elif format == 'l':
+        #     print(f'{pc.BRED}Not yet implemented l type{pc.ENDC}')
+        #     raise Exception
+        # else:
+        #     print(f'{pc.BRED}Unrecognized format {format}{pc.ENDC}')
 
         try:
             response = self.generate(input=prompt + text)[0]
@@ -118,15 +119,17 @@ class GPT_35():
         else:
             print(f'{pc.BBLU}Translating...{pc.ENDC}\n')
 
+        prompt = "Translate this text into a simple paraphrase in " + target + ": " if simplify else "Translate this text into " + target + ": "
+
         if format == 'p':
             prompt = "Translate this text into a simple paraphrase in " + target + ": " if simplify else "Translate this text into " + target + ": "
         elif format == 'h':
             prompt = "Translate this title into " + target + ": "
-        elif format == 'l':
-            print(f'{pc.BRED}Not yet implemented l type{pc.ENDC}')
-            raise Exception
-        else:
-            print(f'{pc.BRED}Unrecognized format {format}{pc.ENDC}')
+        # elif format == 'l':
+        #     print(f'{pc.BRED}Not yet implemented l type{pc.ENDC}')
+        #     raise Exception
+        # else:
+        #     print(f'{pc.BRED}Unrecognized format {format}{pc.ENDC}')
         # prompt = "Translate this text into a simple paraphrase in " + target + ": " if simplify else "Translate this text into " + target + ": "
 
         try:
