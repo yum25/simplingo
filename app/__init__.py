@@ -5,14 +5,17 @@ import pathlib
 
 from config import Config
 from app.settings import print_colors as pc
+from app.mail import mail
 import app.model as md
-
 
 def create_app():
     """Create app."""
     # Initialize app
     app = Flask(__name__)
     app.config.from_object(Config)
+
+    # Init mail
+    mail.init_app(app)
 
     with app.app_context():
         md.model, md.model_backup = md.init_model()

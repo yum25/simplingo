@@ -159,6 +159,13 @@ class Config(object):
     GEM_LANGS = gem_app_langs
     GPT_LANGS = gpt_app_langs
 
+    MAIL_SERVER = "smtp.gmail.com"
+    MAIL_PORT = 465
+    MAIL_USERNAME = "simplingoteam@gmail.com"
+    MAIL_PASSWORD = "CookieIncentive2024"
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = True
+
 class ProdConfig(Config):
     DEVELOPMENT = False
     DEBUG = False

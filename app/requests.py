@@ -1,9 +1,10 @@
 import flask
 from flask import Flask, Blueprint, current_app
+from flask_mail import Mail, Message
 
 from app.model import model, model_backup
 from app.settings import print_colors as pc
-
+from app.mail import mail
 bp = Blueprint('requests', __name__)
 
 @bp.route('/get_text', methods=['GET'])
@@ -110,4 +111,22 @@ def ping_model(model_num):
         print(error)
         return ('', 204)
     return ('', 204)
+
+@bp.route('/send_message', methods=['GET', 'POST'])
+def send_message():
+    """Send feedback message."""
+
+    text = flask.request.args.get('text', default='', type=str)
+    feedback = flask.request.args.get('option', default='None', type=str)
+
+    message = Message(
+        subject=f"Feedback: {feedback}",
+        sender="simplingoteam@gmail.com",
+        recipients=["simplingoteam@gmail.com"],
+        body=text
+    )
+    mail.send(message=message)
+
+    return('', 204)
+
 
