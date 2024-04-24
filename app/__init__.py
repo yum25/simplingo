@@ -51,6 +51,11 @@ def create_app():
             f.write('# hi\n')
         return flask.jsonify({'done': True})
     
+    @app.route('/sendFeedback', methods=['POST'])
+    def send_feedback():
+    # SEND EMAIL?
+        return 'Feedback sent!'
+    
     # with app.app_context():
     #     flask.redirect(flask.url_for('ping_model', model_num = 0))
     text = "light sob of breath Bloom sighed on the silent bluehued flowers"

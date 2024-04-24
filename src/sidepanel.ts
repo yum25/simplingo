@@ -7,6 +7,24 @@ import {
   setValuesToStorage,
   storageChangeListener,
 } from "./storage";
+import nodemailer from 'nodemailer';
+
+const transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user: 'simplingoteam@gmail.com', //  email address
+    pass: 'CookieIncentive2024', //  password
+  },
+});
+
+const mailOptions: nodemailer.SendMailOptions = {
+  from: 'simplingoteam@gmail.com', // Sender
+  to: 'simplingoteam@gmail.com', // Recipient
+  subject: 'SimpLingo Feedback', // Email subject
+  html: 'mail.html', // Email HTML content
+};
+
+
 
 const handleResponse = (type: Message, data: MessageData) => {
   switch (type) {
@@ -133,12 +151,31 @@ document.addEventListener("DOMContentLoaded", async function () {
   );
 
   smile.addEventListener("click", function () {
-    prompt("Thanks for the positive feedback! :) Any additional comments?");
+    let feedback = prompt("Thanks for the positive feedback! :) Any additional comments?");
   });
 
   sad.addEventListener("click", function () {
-    prompt("Sorry for the negative experience :( What would make it better?");
+    let feedback = prompt("Sorry for the negative experience :( What would make it better?");
   });
+
+  function sendFeedback(feedback: string) {
+    const apiUrl = "http://0.0.0.0:5000/sendFeedback"; 
+  
+    fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ feedback: feedback }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log("Feedback sent!", data);
+    })
+    .catch(error => {
+      console.error("Error sending feedback:", error);
+    });
+  }
 
   regenerate.addEventListener("click", function () {
     sendRequest(Message.REGENERATE, {});
